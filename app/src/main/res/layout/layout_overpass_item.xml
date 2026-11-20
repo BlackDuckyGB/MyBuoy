@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MyBuoy. Copyright (C) 2026 Golden-Block.
+     SPDX-License-Identifier: AGPL-3.0-or-later
+     Commercial licensing: licence@golden-block.fr -->
+<!-- Une ligne du helper de serveur de donnees. Un tap sur la ligne ecrit son adresse dans le
+     champ de la page Parameters ; le bouton Key, present seulement sur les serveurs qui en
+     demandent une, ouvre la saisie de la cle. Comme pour les compas, le bouton est rendu non
+     focusable pour que le tap sur le reste de la ligne arrive jusqu'a la ListView. -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="com.gb.mybuoy.ViewsController" />
+        <import type="android.view.View" />
+
+        <variable
+            name="server"
+            type="com.gb.mybuoy.OverpassServer" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:contentDescription="@{server.name}"
+            android:src="@{server.needsKey ? @drawable/ic_server_mapdata_key : @drawable/ic_server_mapdata}" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{server.name}"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{server.about}"
+                android:textColor="#888888"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{server.address}"
+                android:textColor="#555555"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_badge_inuse"
+                android:paddingStart="8dp"
+                android:paddingLeft="8dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="2dp"
+                android:text="IN USE"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:visibility="@{server.inUse ? View.VISIBLE : View.GONE}" />
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:onClick="@{(view) -> ViewsController.EditOverpassKey(server)}"
+            android:text="@{server.keyLabel}"
+            android:visibility="@{server.needsKey ? View.VISIBLE : View.GONE}" />
+    </LinearLayout>
+</layout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #54 : icone de compas (boitier + aiguille nord rouge / sud grise). Sert a la ligne "Compass"
+     de la page Parameters et aux lignes de la liste des compas. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:fillColor="#2196f3"
+        android:pathData="M24,2 C11.85,2 2,11.85 2,24 C2,36.15 11.85,46 24,46 C36.15,46 46,36.15 46,24 C46,11.85 36.15,2 24,2 Z M24,42 C14.06,42 6,33.94 6,24 C6,14.06 14.06,6 24,6 C33.94,6 42,14.06 42,24 C42,33.94 33.94,42 24,42 Z" />
+    <path
+        android:fillColor="#d32f2f"
+        android:pathData="M24,10 L29.5,25 L24,22 L18.5,25 Z" />
+    <path
+        android:fillColor="#9e9e9e"
+        android:pathData="M24,38 L18.5,23 L24,26 L29.5,23 Z" />
+</vector>

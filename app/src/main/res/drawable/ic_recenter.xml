@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <!-- Disque bleu (identique au bouton +) -->
+  <path android:fillColor="#2196f3"
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256zM256,0"/>
+  <!-- Anneau du viseur -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="30" android:fillColor="#00000000"
+      android:pathData="M164,256 a92,92 0 1,0 184,0 a92,92 0 1,0 -184,0"/>
+  <!-- Point central -->
+  <path android:fillColor="#fafafa"
+      android:pathData="M222,256 a34,34 0 1,0 68,0 a34,34 0 1,0 -68,0"/>
+  <!-- Graduations N/S/O/E -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="30" android:strokeLineCap="round"
+      android:pathData="M256,120 L256,150 M256,362 L256,392 M120,256 L150,256 M362,256 L392,256"/>
+</vector>

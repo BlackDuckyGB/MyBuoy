@@ -1,0 +1,18 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <path android:fillColor="#2196f3"
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"/>
+  <!-- Baies de serveur -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="18" android:strokeLineJoin="round"
+      android:fillColor="#00000000"
+      android:pathData="M108,96 L368,96 L368,168 L108,168 Z M108,192 L368,192 L368,264 L108,264 Z"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M142,118 a14,14 0 1,0 28,0 a14,14 0 1,0 -28,0 M142,214 a14,14 0 1,0 28,0 a14,14 0 1,0 -28,0"/>
+  <!-- La liste redescend vers le telephone -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="22" android:strokeLineCap="round"
+      android:fillColor="#00000000"
+      android:pathData="M238,300 L238,392"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M180,376 L296,376 L238,446 Z"/>
+</vector>

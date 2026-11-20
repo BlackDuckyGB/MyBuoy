@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ MyBuoy — outdoor navigation & mark-tracking for boating, hiking, foraging and discovery walks.
+  ~ Copyright (C) 2026 Golden-Block
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ For commercial licensing (use without AGPL obligations), contact:
+  ~ licence@golden-block.fr
+  -->
+
+<!-- A plain sun for the day block: no disc behind it, so it sits in a line of text
+     rather than beside one. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp"
+    android:viewportWidth="24" android:viewportHeight="24"
+    android:tint="#E65100">
+  <path android:pathData="M12,12 m-4.1,0 a4.1,4.1 0 1,0 8.2,0 a4.1,4.1 0 1,0 -8.2,0 Z"
+      android:fillColor="#FF000000"/>
+  <path android:pathData="M12,1.4 L12,4.2 M12,19.8 L12,22.6 M1.4,12 L4.2,12 M19.8,12 L22.6,12"
+      android:strokeColor="#FF000000" android:strokeWidth="1.8" android:strokeLineCap="round"/>
+  <path android:pathData="M4.5,4.5 L6.5,6.5 M17.5,17.5 L19.5,19.5 M4.5,19.5 L6.5,17.5 M17.5,6.5 L19.5,4.5"
+      android:strokeColor="#FF000000" android:strokeWidth="1.8" android:strokeLineCap="round"/>
+</vector>

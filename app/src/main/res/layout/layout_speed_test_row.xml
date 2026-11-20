@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  MyBuoy, outdoor navigation and mark-tracking for boating, hiking, foraging and discovery walks.
+  Copyright (C) 2026 Golden-Block
+
+  This program is free software: you can redistribute it and/or modify it under the terms of the
+  GNU Affero General Public License as published by the Free Software Foundation, either version 3
+  of the License, or (at your option) any later version. See <https://www.gnu.org/licenses/>.
+
+  For commercial licensing (use without AGPL obligations), contact: licence@golden-block.fr
+-->
+<!-- #79 : ligne du tableau de la page Speed test, FIX contre FIX-n. Une seule ligne en portrait :
+     le delta de temps passe sous le libelle plutot que dans une cinquieme colonne. La colonne
+     In circle passe en rouge gras quand un intermediaire sort du cercle. -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="android.graphics.Typeface" />
+
+        <variable
+            name="row"
+            type="com.gb.mybuoy.SpeedTest.Row" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="24dp"
+        android:paddingLeft="24dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="4dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{row.label}"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{row.dtText}"
+                android:textColor="#888888"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:maxLines="1"
+            android:text="@{row.distText}"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:maxLines="1"
+            android:text="@{row.speedText}"
+            android:textColor="#1565c0"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:maxLines="1"
+            android:text="@{row.inCircle}"
+            android:textColor="@{row.allInside ? 0xFF000000 : 0xFFD32F2F}"
+            android:textSize="14sp"
+            android:typeface="@{row.allInside ? Typeface.DEFAULT : Typeface.DEFAULT_BOLD}" />
+    </LinearLayout>
+</layout>

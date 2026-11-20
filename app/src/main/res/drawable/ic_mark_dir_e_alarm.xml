@@ -1,0 +1,16 @@
+<!-- #7 : variante rouge du badge, pour une marque dont l'alarme est activee. Copie du
+     fichier ic_mark_dir_e.xml, seule la couleur change. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <group
+        android:rotation="90"
+        android:pivotX="24"
+        android:pivotY="24">
+        <path
+            android:fillColor="#D32F2F"
+            android:pathData="M24,4 L38,42 L24,34 L10,42 Z" />
+    </group>
+</vector>

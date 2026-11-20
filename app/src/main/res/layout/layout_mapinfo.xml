@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MyBuoy. Copyright (C) 2026 Golden-Block.
+     SPDX-License-Identifier: AGPL-3.0-or-later
+     Commercial licensing: licence@golden-block.fr -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="mapInfo"
+            type="com.gb.mybuoy.MapInfo" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.gb.mybuoy.MainActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{mapInfo.Title}"
+                    android:textStyle="bold" />
+
+                <!-- Gives way in order when the row runs out of width: see MapRowStatusView. -->
+                <com.gb.mybuoy.MapRowStatusView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tvSize"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{mapInfo.GZFileSize}"
+                        android:textStyle="italic" />
+
+                    <TextView
+                        android:id="@+id/tvDLStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{mapInfo.downloadStatusString}"
+                        android:textColor="@{mapInfo.downloadStatusColor}" />
+                </com.gb.mybuoy.MapRowStatusView>
+
+            </LinearLayout>
+
+            <!-- Compact on purpose: the row has to hold a title, a size, a status that grows
+                 a percentage and a speed while downloading, and these two. -->
+            <Button
+                android:id="@+id/btnUpdate"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:paddingEnd="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:text="Update"
+                android:textSize="12sp"
+                android:onClick="@{() -> mapInfo.startUpdate()}" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:paddingEnd="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:text="Delete"
+                android:textSize="12sp"
+                android:onClick="@{() -> mapInfo.delete()}" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

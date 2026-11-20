@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #37 : lien vers le depot public. Pastille bleue + chevrons de code, meme facture que les
+     icones ic_menu_*. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+  <path
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"
+      android:fillColor="#2196f3"/>
+  <group android:scaleX="11" android:scaleY="11" android:translateX="124" android:translateY="124">
+    <path android:fillColor="#fafafa"
+        android:pathData="M9.4,16.6L4.8,12l4.6,-4.6L8,6l-6,6 6,6 1.4,-1.4zM14.6,16.6l4.6,-4.6 -4.6,-4.6L16,6l6,6 -6,6 -1.4,-1.4z"/>
+  </group>
+</vector>

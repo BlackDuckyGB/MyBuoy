@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ MyBuoy — outdoor navigation & mark-tracking for boating, hiking, foraging and discovery walks.
+  ~ Copyright (C) 2026 Golden-Block
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ For commercial licensing (use without AGPL obligations), contact:
+  ~ licence@golden-block.fr
+  -->
+<!-- #86 step 1: Maintenance page. Shows what the chunk cache holds and offers four ways to trim
+     it. Same grammar as the Parameters page: a block header per section, then rows. -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="appManager"
+            type="com.gb.mybuoy.AppManager" />
+
+        <variable
+            name="viewsController"
+            type="com.gb.mybuoy.ViewsController" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.gb.mybuoy.MainActivity">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="Maintenance"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/btnBack"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/ic_btn48_background"
+            android:scaleType="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/btn_cancel" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    layout="@layout/layout_param_block_header"
+                    app:title='@{"Downloaded map data"}' />
+
+                <TextView
+                    android:id="@+id/tvCacheSummary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="12dp"
+                    android:textColor="#444444"
+                    android:textSize="14sp"
+                    tools:text="12 areas kept, 48 MB." />
+
+                <include
+                    android:id="@+id/rowPurgeFar"
+                    layout="@layout/layout_param_row_value"
+                    app:desc='@{"Keep the areas around where you are now, drop the ones farther than 50 km."}'
+                    app:icon="@{@drawable/ic_cache_far}"
+                    app:name='@{"Clear areas over 50 km away"}'
+                    app:onClick="@{(view) -> viewsController.PurgeChunkCacheFar()}" />
+
+                <include
+                    android:id="@+id/rowPurgeMonth"
+                    layout="@layout/layout_param_row_value"
+                    app:desc='@{"Drop every area that has not been used for more than a month."}'
+                    app:icon="@{@drawable/ic_cache_month}"
+                    app:name='@{"Keep the last month"}'
+                    app:onClick="@{(view) -> viewsController.PurgeChunkCacheMonth()}" />
+
+                <include
+                    android:id="@+id/rowPurgeWeek"
+                    layout="@layout/layout_param_row_value"
+                    app:desc='@{"Drop every area that has not been used for more than a week."}'
+                    app:icon="@{@drawable/ic_cache_week}"
+                    app:name='@{"Keep the last week"}'
+                    app:onClick="@{(view) -> viewsController.PurgeChunkCacheWeek()}" />
+
+                <include
+                    android:id="@+id/rowPurgeAll"
+                    layout="@layout/layout_param_row_value"
+                    app:desc='@{"Empty it completely. The areas you cross will be downloaded again."}'
+                    app:icon="@{@drawable/ic_cache_all}"
+                    app:name='@{"Clear everything"}'
+                    app:onClick="@{(view) -> viewsController.PurgeChunkCacheAll()}" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

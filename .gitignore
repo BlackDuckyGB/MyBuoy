@@ -1,0 +1,33 @@
+*.iml
+.gradle
+/local.properties
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+
+# --- Ajouts 2026-06-16 : exclure artefacts de build et gros binaires ---------
+# Build du module app (artefacts, ne pas versionner)
+app/build/
+build/
+# Image SD de l'émulateur (~8 Go) et snapshots
+/SDCard/
+*.img
+*.qcow2
+# IDE / divers
+.idea/
+*.iml
+.vscode/
+# Auto-incremented build number (local, not versioned)
+app/version.properties
+
+# --- design/ : sorties régénérables par scripts/mkico.sh (on garde xcf, svg, mybuoy.png)
+/design/app-icon/mybuoy-*.png
+/design/app-icon/mybuoy.iconset/
+/design/app-icon/mybuoy.icns
+/design/app-icon/mybuoy.ico
+# Jeu d'icônes tiers JOSM (rechargeable, gardé localement)
+/design/marks/reference/

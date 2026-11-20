@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MyBuoy. Copyright (C) 2026 Golden-Block.
+     SPDX-License-Identifier: AGPL-3.0-or-later
+     Commercial licensing: licence@golden-block.fr -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="personalMark"
+            type="com.gb.mybuoy.PersonalMark" />
+    </data>
+
+    <!-- EDIT in its own column over the whole height. Left of it: the title over the whole width,
+         and under the title lat / lon / distance, the fixed width elevation block, the direction arrow. -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{() -> personalMark.switchSelected()}"
+        tools:context="com.gb.mybuoy.MainActivity">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@{personalMark.bitmap}"
+            app:srcCompat="@drawable/pixel"
+            tools:srcCompat="@drawable/pixel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:onClick="@{() -> personalMark.edit()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@{personalMark.title}"
+            app:alarmedTitle="@{personalMark.alarmed}"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/imageView"
+            app:layout_constraintEnd_toStartOf="@id/btnEdit"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgDir"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@{personalMark.arrowBitmap}"
+            app:layout_constraintEnd_toStartOf="@id/btnEdit"
+            app:layout_constraintTop_toTopOf="@id/dataColumn"
+            app:layout_constraintBottom_toBottomOf="@id/dataColumn" />
+
+        <!-- Elevation: fixed width, so the distance knows the room it has. Invisible rather than gone
+             when there is nothing to show, so every row keeps the same layout. -->
+        <LinearLayout
+            android:id="@+id/elevationBlock"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="@{personalMark.elevationShown ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintEnd_toStartOf="@id/imgDir"
+            app:layout_constraintBottom_toBottomOf="@id/dataColumn">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                android:gravity="end|center_vertical"
+                android:maxLines="1"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMaxTextSize="14sp"
+                android:text="@{personalMark.elevationAngleString}" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="end|center_vertical"
+                android:maxLines="1"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMaxTextSize="14sp"
+                android:text="@{personalMark.elevationDeltaString}" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dataColumn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@id/imageView"
+            app:layout_constraintEnd_toStartOf="@id/elevationBlock"
+            app:layout_constraintTop_toBottomOf="@id/tvName">
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:includeFontPadding="false"
+                android:text="@{personalMark.latitudeString}" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:includeFontPadding="false"
+                android:text="@{personalMark.longitudeString}" />
+
+            <!-- Shrinks to fit a long distance instead of wrapping. -->
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMaxTextSize="14sp"
+                android:text="@{personalMark.distanceString}" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <path android:fillColor="#2196f3"
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"/>
+  <!-- La trace laissee derriere soi : points de plus en plus petits vers le passe -->
+  <path android:fillColor="#fafafa"
+      android:pathData="M338,150 a34,34 0 1,0 68,0 a34,34 0 1,0 -68,0"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M252,206 a26,26 0 1,0 52,0 a26,26 0 1,0 -52,0"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M198,290 a22,22 0 1,0 44,0 a22,22 0 1,0 -44,0"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M136,340 a18,18 0 1,0 36,0 a18,18 0 1,0 -36,0"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M84,392 a14,14 0 1,0 28,0 a14,14 0 1,0 -28,0"/>
+</vector>

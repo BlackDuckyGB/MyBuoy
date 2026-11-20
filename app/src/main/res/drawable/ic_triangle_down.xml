@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #54 : le triangle du selecteur de valeur. Pur decor : c'est le bloc entier qui est cliquable. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="10dp"
+    android:height="10dp"
+    android:viewportWidth="10"
+    android:viewportHeight="10">
+    <path
+        android:fillColor="#1565c0"
+        android:pathData="M1,3.5 L9,3.5 L5,8 Z" />
+</vector>

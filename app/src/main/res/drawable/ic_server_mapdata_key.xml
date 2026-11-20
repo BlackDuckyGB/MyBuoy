@@ -1,0 +1,25 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <path android:fillColor="#2196f3"
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"/>
+  <!-- Globe : la donnee servie est de la carte -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="18" android:fillColor="#00000000"
+      android:pathData="M186,168 a70,70 0 1,0 140,0 a70,70 0 1,0 -140,0"/>
+  <path android:strokeColor="#fafafa" android:strokeWidth="14" android:fillColor="#00000000"
+      android:pathData="M186,168 L326,168 M256,98 C221,123 221,213 256,238 C291,213 291,123 256,98 Z"/>
+  <!-- Deux baies de serveur -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="18" android:strokeLineJoin="round"
+      android:fillColor="#00000000"
+      android:pathData="M126,268 L386,268 L386,340 L126,340 Z M126,364 L386,364 L386,436 L126,436 Z"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M160,290 a14,14 0 1,0 28,0 a14,14 0 1,0 -28,0 M160,386 a14,14 0 1,0 28,0 a14,14 0 1,0 -28,0"/>
+  <!-- La cle : ce serveur en demande une. En or pour se detacher du blanc des baies, posee
+       dans le coin bas droit, par dessus tout le reste. -->
+  <path android:fillColor="#1a1a1a"
+      android:pathData="M300,392 m0,-14 a92,92 0 1,0 0.1,0 Z" android:fillAlpha="0"/>
+  <path android:fillColor="#ffc107"
+      android:pathData="M372,300 a52,52 0 1,0 0.1,0 Z M372,330 a22,22 0 1,1 -0.1,0 Z"/>
+  <path android:fillColor="#ffc107"
+      android:pathData="M352,346 L352,470 L380,470 L380,440 L410,440 L410,412 L380,412 L380,392 L412,392 L412,364 L380,364 L380,346 Z"/>
+</vector>

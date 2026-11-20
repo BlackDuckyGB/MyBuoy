@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <!-- Disque bleu (identique au bouton de recentrage) -->
+  <path android:fillColor="#2196f3"
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256zM256,0"/>
+  <!-- Manche du balai (plus long / plus epais) -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="34" android:strokeLineCap="round"
+      android:pathData="M400,105 L232,290"/>
+  <!-- Tete du balai (evantail plein blanc, plus grande) -->
+  <path android:fillColor="#fafafa"
+      android:pathData="M188,300 L292,332 L332,428 L138,388 Z"/>
+  <!-- Brins (traits bleus dans la tete) -->
+  <path android:strokeColor="#2196f3" android:strokeWidth="9" android:strokeLineCap="round"
+      android:pathData="M196,332 L186,384 M228,342 L221,398 M260,344 L266,402 M292,338 L303,392"/>
+</vector>

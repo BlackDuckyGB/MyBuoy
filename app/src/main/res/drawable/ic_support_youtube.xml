@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ MyBuoy — outdoor navigation & mark-tracking for boating, hiking, foraging and discovery walks.
+  ~ Copyright (C) 2026 Golden-Block
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ For commercial licensing (use without AGPL obligations), contact:
+  ~ licence@golden-block.fr
+  -->
+<!-- Link to the tutorial videos channel. Blue disc and a white play button, drawn like the
+     other ic_support_* icons; a generic play symbol, not the video platform's logo. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+  <path
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"
+      android:fillColor="#2196f3"/>
+  <!-- Rounded screen -->
+  <path
+      android:pathData="M166,166 L346,166 A50,50 0 0 1 396,216 L396,296 A50,50 0 0 1 346,346 L166,346 A50,50 0 0 1 116,296 L116,216 A50,50 0 0 1 166,166 Z"
+      android:fillColor="#fafafa"/>
+  <!-- Play triangle -->
+  <path
+      android:pathData="M228,206 L228,306 L314,256 Z"
+      android:fillColor="#2196f3"/>
+</vector>

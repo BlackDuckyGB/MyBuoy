@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MyBuoy. Copyright (C) 2026 Golden-Block.
+     SPDX-License-Identifier: AGPL-3.0-or-later
+     Commercial licensing: licence@golden-block.fr -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="com.gb.mybuoy.AvatarCatalog" />
+
+        <variable
+            name="appManager"
+            type="com.gb.mybuoy.AppManager" />
+
+        <variable
+            name="viewsController"
+            type="com.gb.mybuoy.ViewsController" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.gb.mybuoy.MainActivity">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:text="Parameters"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/ic_btn48_background"
+            android:scaleType="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/btn_cancel" />
+
+        <!-- Scrollable list of parameter blocks. Each block = one <include> of the reusable
+             header + one <include> per parameter row (switch for bool, spinner for enum later). -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    layout="@layout/layout_param_block_header"
+                    app:title='@{"Global parameters"}' />
+
+                <include
+                    layout="@layout/layout_param_row_switch"
+                    app:checked="@{appManager.singleTarget}"
+                    app:desc='@{"Show a single measuring target at the centre of the screen instead of three. Tap it to drop a mark at the aimed point, or tap elsewhere to measure distances step by step."}'
+                    app:icon="@{@drawable/ic_single_target}"
+                    app:name='@{"Single target"}'
+                    app:onCheckedChanged="@{(button, isChecked) -> appManager.setSingleTarget(isChecked)}" />
+
+                <include
+                    layout="@layout/layout_param_row_switch"
+                    app:checked="@{appManager.lowResourceMode}"
+                    app:desc='@{"For a phone that struggles: avatar previews stop animating, button sounds go quiet and the map redraws less often. Alarms, position, heading and measurements are unchanged."}'
+                    app:icon="@{@drawable/ic_low_res}"
+                    app:name='@{"Low-resource mode"}'
+                    app:onCheckedChanged="@{(button, isChecked) -> appManager.setLowResourceMode(isChecked)}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"How positions are written everywhere in the app. DD is 47.1234°, DM is 47° 07.404′, DMS is 47° 07′ 24″."}'
+                    app:icon="@{@drawable/ic_coord_fmt}"
+                    app:name='@{"Coordinates format"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setCoordFmtPos(pos)}"
+                    app:position="@{appManager.coordFmtPos}"
+                    app:values="@{appManager.coordFmtValues}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"When speeds are in miles, short distances are shown in this unit: metres below 1 mile, yards below half a mile, feet below 1000 ft."}'
+                    app:icon="@{@drawable/ic_small_unit}"
+                    app:name='@{"Short distances unit"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setSmallUnitPos(pos)}"
+                    app:position="@{appManager.smallUnitPos}"
+                    app:values="@{appManager.smallUnitValues}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"Your marks closer than this appear in the list on the right. A mark you have selected always stays in the list, however far away it is."}'
+                    app:icon="@{@drawable/ic_prox_dist}"
+                    app:name='@{"Nearby marks radius"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setProxPos(pos)}"
+                    app:position="@{appManager.proxPos}"
+                    app:values="@{appManager.proxValues}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"Below this height difference, the slope to a mark is not shown."}'
+                    app:icon="@{@drawable/ic_elevation}"
+                    app:name='@{"Slope threshold"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setElevMinPos(pos)}"
+                    app:position="@{appManager.elevMinPos}"
+                    app:values="@{appManager.elevMinValues}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"How far around you the magnifier looks when Around me is ticked on the search page. Inside that box a category on its own is enough, but nothing outside it is ever found."}'
+                    app:icon="@{@drawable/ic_search_radius}"
+                    app:name='@{"Around me radius"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setSearchRadiusPos(pos)}"
+                    app:position="@{appManager.searchRadiusPos}"
+                    app:values="@{appManager.searchRadiusValues}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"How many places the magnifier asks the search server for. Everything that comes back is shown, nearest first. The server never gives more than 50, and warns you when it had to cut."}'
+                    app:icon="@{@drawable/ic_search_limit}"
+                    app:name='@{"Search results"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setSearchLimitPos(pos)}"
+                    app:position="@{appManager.searchLimitPos}"
+                    app:values="@{appManager.searchLimitValues}" />
+
+                <include
+                    layout="@layout/layout_param_row_switch"
+                    app:checked="@{appManager.traceOn}"
+                    app:desc='@{"Drop a red dot on the map at every position received, so the track you have just walked or sailed stays visible behind you."}'
+                    app:icon="@{@drawable/ic_trace}"
+                    app:name='@{"GPS trail"}'
+                    app:onCheckedChanged="@{(button, isChecked) -> appManager.setTraceOn(isChecked)}" />
+
+                <include
+                    layout="@layout/layout_param_block_header"
+                    app:title='@{"Alarm"}' />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"Sound the alarm when a hazard from the map — today the speed cameras — comes closer than this."}'
+                    app:icon="@{@drawable/ic_warn_dist}"
+                    app:name='@{"Warning distance"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setWarnDistPos(pos)}"
+                    app:position="@{appManager.warnDistPos}"
+                    app:values="@{appManager.warnDistValues}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"Sound the alarm when a hazard is less than this far ahead in time at your current speed. Ignored while you are stopped. Either this or the distance above is enough to trigger it."}'
+                    app:icon="@{@drawable/ic_warn_eta}"
+                    app:name='@{"Warning time"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setWarnEtaPos(pos)}"
+                    app:position="@{appManager.warnEtaPos}"
+                    app:values="@{appManager.warnEtaValues}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"Minimum width given to a watch zone when it is drawn around the marks you selected. A zone narrower than this is widened, never past its own length."}'
+                    app:icon="@{@drawable/ic_zone_create}"
+                    app:name='@{"Watch zone width"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setZoneWPos(pos)}"
+                    app:position="@{appManager.zoneWPos}"
+                    app:values="@{appManager.zoneWValues}" />
+
+                <!-- #81 : l'interrupteur d'abord, il commande tout ce qui suit pour les radars. -->
+                <include
+                    layout="@layout/layout_param_row_switch"
+                    app:checked="@{appManager.radarAlarmOn}"
+                    app:desc='@{"Warn about the hazards that come from the map, the speed cameras. Turned off, they make no sound, no flashing border and no edge arrow — they keep their red pulsing circle on the map."}'
+                    app:icon="@{@drawable/ic_warn_dist}"
+                    app:name='@{"Speed camera alarms"}'
+                    app:onCheckedChanged="@{(button, isChecked) -> appManager.setRadarAlarmOn(isChecked)}" />
+
+                <include
+                    layout="@layout/layout_param_row_value"
+                    app:desc='@{"Sound played when a speed camera comes into range."}'
+                    app:icon="@{@drawable/ic_warn_dist}"
+                    app:name='@{"Speed camera sound"}'
+                    app:onClick="@{(v) -> viewsController.ShowAlarmSoundPicker(0)}"
+                    app:value="@{appManager.alarmSoundRadarLabel}" />
+
+                <include
+                    layout="@layout/layout_param_row_value"
+                    app:desc='@{"Sound played when one of your own marks comes into range. Only marks with Alarm switched on."}'
+                    app:icon="@{@drawable/ic_mark_badge_n}"
+                    app:name='@{"Personal mark sound"}'
+                    app:onClick="@{(v) -> viewsController.ShowAlarmSoundPicker(1)}"
+                    app:value="@{appManager.alarmSoundMarkLabel}" />
+
+                <include
+                    layout="@layout/layout_param_row_value"
+                    app:desc='@{"Sound played when you leave the watch zone."}'
+                    app:icon="@{@drawable/ic_zone_create}"
+                    app:name='@{"Watch zone sound"}'
+                    app:onClick="@{(v) -> viewsController.ShowAlarmSoundPicker(2)}"
+                    app:value="@{appManager.alarmSoundZoneLabel}" />
+
+                <include
+                    layout="@layout/layout_param_block_header"
+                    app:title='@{"Magnetic heading"}' />
+
+                <include
+                    layout="@layout/layout_param_row_switch"
+                    app:checked="@{appManager.declAuto}"
+                    app:desc='@{"Computed by Android from your position: " + appManager.declAutoModelString + ". Every correction here is shown as it is added to the heading, so this one counts as " + appManager.declAutoString + "."}'
+                    app:icon="@{@drawable/ic_declination_auto}"
+                    app:name='@{"Automatic declination"}'
+                    app:onCheckedChanged="@{(button, isChecked) -> appManager.setDeclAuto(isChecked)}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"Added on top of the automatic declination, in every area and on every heading."}'
+                    app:icon="@{@drawable/ic_declination}"
+                    app:name='@{"Additional correction"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setDeclSpinnerPos(pos)}"
+                    app:position="@{appManager.declSpinnerPos}"
+                    app:values="@{appManager.declValues}" />
+
+                <include
+                    layout="@layout/layout_param_row_value"
+                    app:desc='@{"Deviation card of your own compass: a correction per cardinal point, compensating the magnetic disturbance of the hardware around it. Applied to the displayed magnetic heading."}'
+                    app:icon="@{appManager.compassSelected ? @drawable/ic_compass : @drawable/ic_compass_off}"
+                    app:name='@{"Compass"}'
+                    app:onClick="@{(view) -> viewsController.ShowCompassList()}"
+                    app:value="@{appManager.compassLabel}" />
+
+                <include
+                    layout="@layout/layout_param_block_header"
+                    app:title='@{"Avatar"}' />
+
+                <include
+                    layout="@layout/layout_param_row_avatar"
+                    app:desc='@{"Sprite shown when the position is on water."}'
+                    app:name='@{"Water"}'
+                    app:onClick="@{(view) -> viewsController.ShowAvatarPicker(AvatarCatalog.CAT_SEA)}"
+                    app:preview="@{appManager.avatarSeaPreview}"
+                    app:value="@{appManager.avatarSeaLabel}" />
+
+                <include
+                    layout="@layout/layout_param_row_avatar"
+                    app:desc='@{"Sprite shown on land below 8 km/h: walking."}'
+                    app:name='@{"Slow"}'
+                    app:onClick="@{(view) -> viewsController.ShowAvatarPicker(AvatarCatalog.CAT_WALK)}"
+                    app:preview="@{appManager.avatarWalkPreview}"
+                    app:value="@{appManager.avatarWalkLabel}" />
+
+                <include
+                    layout="@layout/layout_param_row_avatar"
+                    app:desc='@{"Sprite shown on land from 8 to 50 km/h: bike, scooter, tractor. The walking sprite is used while this category holds no sprite."}'
+                    app:name='@{"Middle"}'
+                    app:onClick="@{(view) -> viewsController.ShowAvatarPicker(AvatarCatalog.CAT_RIDE)}"
+                    app:preview="@{appManager.avatarRidePreview}"
+                    app:value="@{appManager.avatarRideLabel}" />
+
+                <include
+                    layout="@layout/layout_param_row_avatar"
+                    app:desc='@{"Sprite shown on land above 50 km/h: car, motorbike, truck, plane. The walking sprite is used while this category holds no sprite."}'
+                    app:name='@{"Fast"}'
+                    app:onClick="@{(view) -> viewsController.ShowAvatarPicker(AvatarCatalog.CAT_DRIVE)}"
+                    app:preview="@{appManager.avatarDrivePreview}"
+                    app:value="@{appManager.avatarDriveLabel}" />
+
+                <include
+                    layout="@layout/layout_param_block_header"
+                    app:title='@{"Developer parameters"}' />
+
+                <include
+                    layout="@layout/layout_param_row_switch_red"
+                    app:checked="@{appManager.debugMode}"
+                    app:desc='@{"Show the developer overlay (top-left readouts and the F / - / + tuning buttons), enable verbose logging and the in-app memory diagnostics."}'
+                    app:icon="@{@drawable/ic_menu_params_red}"
+                    app:name='@{"Debug mode"}'
+                    app:onCheckedChanged="@{(button, isChecked) -> appManager.setDebugMode(isChecked)}" />
+
+                <include
+                    layout="@layout/layout_param_row_switch"
+                    app:checked="@{appManager.streamerMode}"
+                    app:desc='@{"For recording videos: the coordinates shown are moved far away (a new place on each launch), the mark editor shows them read-only, and the names on the map are replaced with made-up ones."}'
+                    app:icon="@{@drawable/ic_streamer}"
+                    app:name='@{"Streamer mode"}'
+                    app:onCheckedChanged="@{(button, isChecked) -> appManager.setStreamerMode(isChecked)}" />
+
+                <include
+                    layout="@layout/layout_param_row_switch"
+                    app:checked="@{appManager.preferSdStorage}"
+                    app:desc='@{"Write new files to the SD card rather than to the internal storage: chunk cache, offline maps and logs. Anything already written stays where it is, and the other storage is still used when the preferred one is full.\n" + appManager.storageLocationsString}'
+                    app:icon="@{@drawable/ic_storage_sd}"
+                    app:name='@{"Prefer SD card storage"}'
+                    app:onCheckedChanged="@{(button, isChecked) -> appManager.setPreferSdStorage(isChecked)}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"How much room the downloaded map data may take on the phone: Small 100 MB, Medium 500 MB, Large 2 GB. Above it, the areas farthest from you are dropped first, the least recently used before the others."}'
+                    app:icon="@{@drawable/ic_cache_size}"
+                    app:name='@{"Map data cache size"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setCacheSizePos(pos)}"
+                    app:position="@{appManager.cacheSizePos}"
+                    app:values="@{appManager.cacheSizeValues}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"How far ahead your marker is drawn, to make up for the delay between a position being measured and shown. Automatic shortens it as you speed up."}'
+                    app:icon="@{@drawable/ic_predict}"
+                    app:name='@{"Position prediction"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setAnticipPos(pos)}"
+                    app:position="@{appManager.anticipPos}"
+                    app:values="@{appManager.anticipValues}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"How far ahead the heading is carried on through the turn you are making. Drives the blue turn cone, and the yellow line of the overlay below."}'
+                    app:icon="@{@drawable/ic_predcap}"
+                    app:name='@{"Heading prediction"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setPredCapPos(pos)}"
+                    app:position="@{appManager.predCapPos}"
+                    app:values="@{appManager.predCapValues}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"Length of time the displayed speed is averaged over. A short window reacts quickly, a long one reads steadier."}'
+                    app:icon="@{@drawable/ic_spd_win}"
+                    app:name='@{"Speed averaging"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setSpdWinPos(pos)}"
+                    app:position="@{appManager.spdWinPos}"
+                    app:values="@{appManager.spdWinValues}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"Length of time your altitude is averaged over."}'
+                    app:icon="@{@drawable/ic_elevation}"
+                    app:name='@{"Altitude averaging"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setAltWinPos(pos)}"
+                    app:position="@{appManager.altWinPos}"
+                    app:values="@{appManager.altWinValues}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"How many of the latest positions are measured to size the blue uncertainty band around your heading. Automatic uses them all."}'
+                    app:icon="@{@drawable/ic_npts}"
+                    app:name='@{"Uncertainty points"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setNptsPos(pos)}"
+                    app:position="@{appManager.nptsPos}"
+                    app:values="@{appManager.nptsValues}" />
+
+                <include
+                    layout="@layout/layout_param_row_switch"
+                    app:checked="@{appManager.overlayOn}"
+                    app:desc='@{"Draw two more heading lines over the map: the raw one reported by the GPS chip in orange, and the predicted one in yellow."}'
+                    app:icon="@{@drawable/ic_dbg_overlay}"
+                    app:name='@{"Extra debug overlay"}'
+                    app:onCheckedChanged="@{(button, isChecked) -> appManager.setOverlayOn(isChecked)}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"How close a search result has to be to one of your marks to count as the same place. Such a result offers Edit instead of Create, so you do not end up with two marks on one spot."}'
+                    app:icon="@{@drawable/ic_same_place}"
+                    app:name='@{"Same place radius"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setSamePlacePos(pos)}"
+                    app:position="@{appManager.samePlacePos}"
+                    app:values="@{appManager.samePlaceValues}" />
+
+                <include
+                    layout="@layout/layout_param_row_switch"
+                    app:checked="@{appManager.samePlaceTitle}"
+                    app:desc='@{"Also require the same name, not just the same position, before a search result counts as an existing mark. Keeps two businesses at one address apart, but a mark you renamed afterwards is no longer recognised."}'
+                    app:icon="@{@drawable/ic_same_place_name}"
+                    app:name='@{"Same place needs same name"}'
+                    app:onCheckedChanged="@{(button, isChecked) -> appManager.setSamePlaceTitle(isChecked)}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"How far the tide page may look for tide data when the model has none where you are. The global tide model draws its coastline well offshore, so a bay can sit twenty kilometres from the nearest point it covers. The tide is then read there, and the page says so."}'
+                    app:icon="@{@drawable/ic_menu_tides}"
+                    app:name='@{"Tide search distance"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setTideReachPos(pos)}"
+                    app:position="@{appManager.tideReachPos}"
+                    app:values="@{appManager.tideReachValues}" />
+
+                <include
+                    layout="@layout/layout_param_row_text"
+                    app:desc='@{"Server the map data is downloaded from. Any server speaking the Overpass API 0.7 works here, a public one or your own. MyBuoy completes the address itself."}'
+                    app:icon="@{@drawable/ic_server_mapdata}"
+                    app:actionText='@{"Helper"}'
+                    app:isDefault="@{false}"
+                    app:name='@{"Map data server"}'
+                    app:onReset="@{(view) -> viewsController.ShowOverpassPicker()}"
+                    app:onTextCommitted="@{(text) -> appManager.setOverpassUrl(text)}"
+                    app:value="@{appManager.overpassUrl}" />
+
+                <include
+                    layout="@layout/layout_param_row_text"
+                    app:desc='@{"Server that lists the offline maps available for download. Point it at your own to publish your own list. MyBuoy completes the address itself."}'
+                    app:icon="@{@drawable/ic_server_maplist}"
+                    app:isDefault="@{appManager.mapsUrlDefault}"
+                    app:name='@{"Offline maps server"}'
+                    app:onReset="@{(view) -> appManager.resetMapsUrl()}"
+                    app:onTextCommitted="@{(text) -> appManager.setMapsUrl(text)}"
+                    app:value="@{appManager.mapsUrl}" />
+
+                <include
+                    layout="@layout/layout_param_row_text"
+                    app:desc='@{"Server used to look a place up by name or address. Any server speaking the Nominatim API works here, the public one or your own. MyBuoy completes the address itself."}'
+                    app:icon="@{@drawable/ic_server_search}"
+                    app:isDefault="@{appManager.nominatimUrlDefault}"
+                    app:name='@{"Place search server"}'
+                    app:onReset="@{(view) -> appManager.resetNominatimUrl()}"
+                    app:onTextCommitted="@{(text) -> appManager.setNominatimUrl(text)}"
+                    app:value="@{appManager.nominatimUrl}" />
+
+                <include
+                    layout="@layout/layout_param_block_header"
+                    app:title='@{"Developer pages"}' />
+
+                <include
+                    layout="@layout/layout_param_row_value"
+                    app:desc='@{"Live comparison of the speed computations, and the speed between the last fix and each of the previous ones."}'
+                    app:icon="@{@drawable/ic_speed_test}"
+                    app:name='@{"Speed test"}'
+                    app:onClick="@{(view) -> viewsController.ShowSpeedTestPage()}"
+                    app:value='@{"Open"}' />
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ MyBuoy — outdoor navigation & mark-tracking for boating, hiking, foraging and discovery walks.
+  ~ Copyright (C) 2026 Golden-Block
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ For commercial licensing (use without AGPL obligations), contact:
+  ~ licence@golden-block.fr
+  -->
+<!-- #86: Stacked platters: how much room the downloaded map data may take. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <path android:fillColor="#2196f3"
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M256,86 c86,0 156,26 156,58 c0,32 -70,58 -156,58 c-86,0 -156,-26 -156,-58 c0,-32 70,-58 156,-58 z"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M100,186 c0,32 70,58 156,58 c86,0 156,-26 156,-58 L412,262 c0,32 -70,58 -156,58 c-86,0 -156,-26 -156,-58 z"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M100,300 c0,32 70,58 156,58 c86,0 156,-26 156,-58 L412,376 c0,32 -70,58 -156,58 c-86,0 -156,-26 -156,-58 z"/>
+</vector>

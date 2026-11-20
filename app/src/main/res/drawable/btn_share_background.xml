@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #74 : fond du bouton de partage. Pastille pleine bleue, seul element rempli de la page :
+     c'est ce qui le distingue du texte courant sans avoir besoin de crier. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#0d47a1" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#1565c0" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+</selector>

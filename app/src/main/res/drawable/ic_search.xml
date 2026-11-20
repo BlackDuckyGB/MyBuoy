@@ -1,0 +1,22 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+  <path
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"
+      android:fillColor="#2196f3"/>
+  <!-- Loupe : meme graisse de trait que les barres du burger, pour que les deux boutons voisins
+       aient le meme poids visuel. -->
+  <path
+      android:pathData="M132,212 a90,90 0 1,0 180,0 a90,90 0 1,0 -180,0"
+      android:strokeColor="#fafafa"
+      android:strokeWidth="38"
+      android:fillColor="#00000000"/>
+  <path
+      android:pathData="M290,290 L378,378"
+      android:strokeColor="#fafafa"
+      android:strokeWidth="46"
+      android:strokeLineCap="round"
+      android:fillColor="#00000000"/>
+</vector>

@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Roadmap
+    url: https://github.com/BlackDuckyGB/MyBuoy/blob/main/ROADMAP.md
+    about: Everything planned, under way and already done. Please read it before opening an issue.
+  - name: Security issue
+    url: https://github.com/BlackDuckyGB/MyBuoy/blob/main/SECURITY.md
+    about: Please do not report security problems in a public issue.

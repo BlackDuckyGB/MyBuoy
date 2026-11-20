@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MyBuoy. Copyright (C) 2026 Golden-Block.
+     SPDX-License-Identifier: AGPL-3.0-or-later
+     Commercial licensing: licence@golden-block.fr -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="android.view.View" />
+        <import type="com.gb.mybuoy.AppManager" />
+        <variable name="mark" type="com.gb.mybuoy.PersonalMark" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="@{mark.coordFmt == AppManager.COORDFMT_DM ? View.VISIBLE : View.GONE}">
+
+        <!-- Latitude : [N/S] [deg]° [MM.mmmm]' -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:text="Latitude" />
+
+            <Button
+                android:id="@+id/btnLatHemiDm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textAllCaps="false"
+                android:text="@{mark.latHemi}"
+                android:onClick="@{() -> mark.toggleLatHemi()}" />
+
+            <EditText
+                android:id="@+id/etLatDegDm"
+                android:layout_width="44dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="2"
+                android:text="@={mark.latDegString}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="°" />
+
+            <EditText
+                android:id="@+id/etLatMinDec"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="@={mark.latMinDecString}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="′" />
+        </LinearLayout>
+
+        <!-- Longitude : [W/E] [deg]° [MM.mmmm]' -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:text="Longitude" />
+
+            <Button
+                android:id="@+id/btnLonHemiDm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textAllCaps="false"
+                android:text="@{mark.lonHemi}"
+                android:onClick="@{() -> mark.toggleLonHemi()}" />
+
+            <EditText
+                android:id="@+id/etLonDegDm"
+                android:layout_width="44dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="3"
+                android:text="@={mark.lonDegString}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="°" />
+
+            <EditText
+                android:id="@+id/etLonMinDec"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="@={mark.lonMinDecString}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="′" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

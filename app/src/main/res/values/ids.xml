@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- #7 : memoire de la couleur d'origine d'un TextView de titre, posee en tag par
+         PersonalMark.bindAlarmedTitle. Sans elle, repasser une marque en non armee ne saurait pas
+         quelle couleur rendre. -->
+    <item name="tag_base_text_color" type="id" />
+
+</resources>

@@ -1,0 +1,28 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <!-- Theme de lancement. L'ecran de demarrage du systeme ne peut pas etre supprime a partir
+         d'Android 12, mais il est thematique : en lui donnant le meme bleu et la meme icone que
+         notre ecran d'attente, la bascule de l'un a l'autre ne se voit plus. MainActivity remet
+         AppTheme des le debut de onCreate. -->
+    <!-- #36 : le switch de la ligne "Debug mode", en rouge. Un theme local plutot qu'une teinte :
+         la couleur cochee d'un Switch vient de colorAccent, donc la changer ici garde le
+         comportement natif, gris au repos et colore une fois coche. Une teinte posee a la main
+         aurait remplace les deux etats par une seule couleur. -->
+    <style name="ParamRedSwitch" parent="">
+        <item name="colorAccent">@color/param_red</item>
+    </style>
+
+    <style name="AppTheme.Launch" parent="AppTheme">
+        <item name="android:windowBackground">@color/splash_bg</item>
+    </style>
+
+</resources>

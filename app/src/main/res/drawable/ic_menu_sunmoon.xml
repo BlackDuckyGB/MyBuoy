@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ MyBuoy — outdoor navigation & mark-tracking for boating, hiking, foraging and discovery walks.
+  ~ Copyright (C) 2026 Golden-Block
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ For commercial licensing (use without AGPL obligations), contact:
+  ~ licence@golden-block.fr
+  -->
+<!-- Menu entry for the Sun and moon page: a rayed sun low on the left, a crescent high on
+     the right. Drawn here rather than taken from an icon set, so that nothing in the app
+     arrives carrying a licence of its own. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <path
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"
+      android:fillColor="#2196f3"/>
+  <group android:scaleX="14" android:scaleY="14" android:translateX="88" android:translateY="88">
+
+    <!-- The sun: a disc and eight rays. -->
+    <path android:pathData="M8.6,12.2 m-3.6,0 a3.6,3.6 0 1,0 7.2,0 a3.6,3.6 0 1,0 -7.2,0 Z"
+        android:fillColor="#fafafa"/>
+    <path android:pathData="M8.6,5.3 L8.6,7.4 M8.6,17.0 L8.6,19.1 M1.7,12.2 L3.8,12.2 M13.4,12.2 L15.5,12.2"
+        android:strokeColor="#fafafa" android:strokeWidth="1.5" android:strokeLineCap="round"/>
+    <path android:pathData="M3.7,7.3 L5.2,8.8 M12.0,15.6 L13.5,17.1 M3.7,17.1 L5.2,15.6 M12.0,8.8 L13.5,7.3"
+        android:strokeColor="#fafafa" android:strokeWidth="1.5" android:strokeLineCap="round"/>
+
+    <!-- The crescent, with a notch of the background between it and the sun. -->
+    <path android:pathData="M19.4,3.3 A5.2,5.2 0 1 0 19.4,13.1 A5.9,5.9 0 0 1 19.4,3.3 Z"
+        android:fillColor="#fafafa"/>
+  </group>
+</vector>

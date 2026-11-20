@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- All-files access: required on Android 11+ to read the land_polygons SQLite DB
+         and map tiles from public SD-card locations under scoped storage. -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
+
+        <activity
+            android:name="com.gb.mybuoy.MainActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.Launch"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- #65 : MyBuoy dans la liste "Ouvrir avec" des positions partagees, a cote de Maps et
+                 Waze. Une URI geo: (RFC 5870) ouvre l'editeur de mark pre-rempli aux coordonnees
+                 recues. singleTask : une seule instance, l'intent arrive dans onNewIntent(). -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="geo" />
+            </intent-filter>
+
+            <!-- #65 : App Link. Le partage d'une position envoie une adresse https, seule forme
+                 qu'une messagerie rend cliquable : un geo: colle dans WhatsApp reste du texte mort.
+                 autoVerify demande a Android de verifier que golden-block.fr nous reconnait : le
+                 fichier /.well-known/assetlinks.json du domaine porte l'empreinte du certificat de
+                 signature. Verification acquise, un clic sur le lien ouvre MyBuoy DIRECTEMENT, sans
+                 navigateur ; sinon il retombe sur la page web, qui propose le geo: sous un bouton.
+                 L'empreinte publiee est celle du certificat DEBUG : elle sera a refaire le jour
+                 d'une signature de release, sinon la verification echouera chez les testeurs. -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="golden-block.fr"
+                    android:path="/mybuoy/p.php" />
+            </intent-filter>
+        </activity>
+
+        <!-- #28 : garde le download de map offline vivant en arriere-plan (wakelock + notif). -->
+        <service
+            android:name="com.gb.mybuoy.MapDownloadService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+        <!-- [START firebase_service] -->
+        <!--
+        <service
+            android:name="com.gb.mybuoy.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        -->
+        <!-- [END firebase_service] -->
+    </application>
+
+</manifest>

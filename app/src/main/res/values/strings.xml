@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">MyBuoy</string>
+
+    <!-- Ecran d'attente : le titre, le bouton, et les astuces montrees pendant le chargement de la
+         premiere zone de carte. Traduire l'application revient a recopier ce fichier dans un
+         dossier values-xx et a en traduire le contenu, le systeme choisit alors tout seul. -->
+    <string name="splash_title">MyBuoy</string>
+    <string name="splash_next_tip">Next tip</string>
+    <string name="splash_loading">Loading the map around you</string>
+
+    <string-array name="splash_tips">
+        <item>Double-tap anywhere on the map to force the current area to reload. Handy when the display looks stuck or incomplete.</item>
+        <item>Long press the burger button to jump straight to your personal marks, without going through the menu.</item>
+        <item>In the marks list, a short tap selects a mark. A long press opens its editor.</item>
+        <item>Tap the speed at the bottom right to switch between km/h, mph and knots. Your choice is remembered.</item>
+        <item>Tap the heading readout to switch between true and magnetic north. The local declination is applied for you.</item>
+        <item>Tap the bearing panel at the top left to move to the next selected mark, from the nearest to the farthest.</item>
+        <item>The recentre button only shows up once you have panned the map, so only when it is of any use.</item>
+        <item>Long press the zone button to delete the watch zone. A short tap cycles through create, edit and validate.</item>
+        <item>Set the watch zone with two fingers: one for its angle, one for its size.</item>
+        <item>Pan the map and sighting reticles appear. Tap a reticle to drop a mark there, tap anywhere else to measure a distance leg by leg.</item>
+        <item>While measuring, the recentre button turns into a broom: it wipes the measurement chain and keeps you in pan mode.</item>
+        <item>Tap a mark that is alarming to mute it for the rest of the session. The flashing border stays as long as the danger does.</item>
+        <item>Panned far from home? The red marker on the edge of the screen points back to your real position, with the distance to it.</item>
+        <item>Flick the map and it keeps gliding, then slows down gently.</item>
+        <item>Swipe down from the top of the screen to bring the Android bar back.</item>
+        <item>Share a position from a message or a website and pick MyBuoy: the mark editor opens ready filled in.</item>
+        <item>A boat compass never shows true north. Store yours with its deviation curve and every heading is corrected for you.</item>
+        <item>A map download carries on in the background. Leave the app, the notification keeps you posted.</item>
+        <item>The avatar follows your pace: a boat on the water, a walker on land.</item>
+        <item>Everything works with no network at all. Download the map once, then forget about coverage.</item>
+        <item>Server addresses live in the advanced settings. You can run your own map server.</item>
+        <item>Alarm distances and delays, coordinate format, track display and avatar all live in the Parameters page.</item>
+        <item>MyBuoy has no ads, no tracking and no budget. Word of mouth is the whole marketing department.</item>
+        <item>Fund the project and get an avatar drawn to your own brief, yours alone.</item>
+        <item>Fund the project and get a personal mark icon made to your taste.</item>
+        <item>MyBuoy is free software under the AGPL-3.0. The full source is public: read it, build it, fork it.</item>
+        <item>Every release is announced on the Telegram channel, with the changelog and the download link.</item>
+        <item>The maps, the roads and the seamarks all come from OpenStreetMap, surveyed by hundreds of thousands of volunteers.</item>
+        <item>You can help with code, with field testing, or with money. All three matter.</item>
+    </string-array>
+    <!-- Libelle par defaut du bouton de droite d'une ligne de reglage texte. -->
+    <string name="param_reset">Reset</string>
+</resources>

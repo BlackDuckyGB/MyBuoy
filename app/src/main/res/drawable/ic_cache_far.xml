@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ MyBuoy — outdoor navigation & mark-tracking for boating, hiking, foraging and discovery walks.
+  ~ Copyright (C) 2026 Golden-Block
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ For commercial licensing (use without AGPL obligations), contact:
+  ~ licence@golden-block.fr
+  -->
+<!-- #86: a map pin outside the radius circle: the areas dropped are the distant ones. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <path android:fillColor="#2196f3"
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M86,300 a128,128 0 1,0 256,0 a128,128 0 1,0 -256,0 z"/>
+  <path android:fillColor="#2196f3"
+      android:pathData="M118,300 a96,96 0 1,0 192,0 a96,96 0 1,0 -192,0 z"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M180,300 a34,34 0 1,0 68,0 a34,34 0 1,0 -68,0 z"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M382,74 a58,58 0 0,1 58,58 c0,44 -58,110 -58,110 c0,0 -58,-66 -58,-110 a58,58 0 0,1 58,-58 z"/>
+  <path android:fillColor="#2196f3"
+      android:pathData="M360,132 a22,22 0 1,0 44,0 a22,22 0 1,0 -44,0 z"/>
+</vector>

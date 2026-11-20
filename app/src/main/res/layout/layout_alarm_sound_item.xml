@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MyBuoy. Copyright (C) 2026 Golden-Block.
+     SPDX-License-Identifier: AGPL-3.0-or-later
+     Commercial licensing: licence@golden-block.fr -->
+<!-- #81 : une ligne du choix de son d'alarme. A gauche l'icone de la famille (pas de son, son de
+     la bibliotheque, fichier de l'utilisateur), au milieu le libelle, a droite un bouton qui joue le
+     son SANS le choisir. Un clic sur la ligne choisit.
+
+     blocksDescendants et bouton non focusable : sans cela, un ImageButton dans une ligne de ListView
+     capte le focus et rend la LIGNE ENTIERE incliquable, ni clic ni retour visuel a l'appui. C'est
+     le piege classique des listes a bouton. -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View" />
+        <variable name="sound" type="com.gb.mybuoy.AlarmSoundCatalog.Entry" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:descendantFocusability="blocksDescendants"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="6dp">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:contentDescription="@{sound.label}"
+            android:src="@{sound.iconRes}" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@{sound.label}"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/btnPlay"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/ic_btn48_background"
+            android:contentDescription="@{sound.label}"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scaleType="center"
+            android:visibility="@{sound.playable ? View.VISIBLE : View.INVISIBLE}"
+            app:srcCompat="@android:drawable/ic_media_play" />
+
+    </LinearLayout>
+</layout>

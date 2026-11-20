@@ -1,0 +1,23 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <path android:fillColor="#2196f3"
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"/>
+  <!-- La bande calculee autour du cap -->
+  <path android:fillColor="#fafafa" android:fillAlpha="0.35"
+      android:pathData="M100,196 L412,146 L412,246 L100,296 Z"/>
+  <!-- Les derniers points GPS pris en compte -->
+  <path android:fillColor="#fafafa"
+      android:pathData="M132,238 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M212,196 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M288,222 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M356,170 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0"/>
+  <!-- Points plus anciens, hors du compte -->
+  <path android:fillColor="#fafafa" android:fillAlpha="0.4"
+      android:pathData="M112,370 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0"/>
+  <path android:fillColor="#fafafa" android:fillAlpha="0.4"
+      android:pathData="M196,392 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0"/>
+</vector>

@@ -1,0 +1,23 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <path android:fillColor="#2196f3"
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"/>
+  <!-- Une liste de reponses : trois entrees pleines, une quatrieme estompee = la coupure -->
+  <path android:fillColor="#fafafa"
+      android:pathData="M120,140 a24,24 0 1,0 48,0 a24,24 0 1,0 -48,0"/>
+  <path android:strokeColor="#fafafa" android:strokeWidth="22" android:strokeLineCap="round"
+      android:fillColor="#00000000" android:pathData="M204,164 L392,164"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M120,236 a24,24 0 1,0 48,0 a24,24 0 1,0 -48,0"/>
+  <path android:strokeColor="#fafafa" android:strokeWidth="22" android:strokeLineCap="round"
+      android:fillColor="#00000000" android:pathData="M204,260 L392,260"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M120,332 a24,24 0 1,0 48,0 a24,24 0 1,0 -48,0"/>
+  <path android:strokeColor="#fafafa" android:strokeWidth="22" android:strokeLineCap="round"
+      android:fillColor="#00000000" android:pathData="M204,356 L392,356"/>
+  <path android:fillColor="#fafafa" android:fillAlpha="0.35"
+      android:pathData="M120,428 a24,24 0 1,0 48,0 a24,24 0 1,0 -48,0"/>
+  <path android:strokeColor="#fafafa" android:strokeAlpha="0.35" android:strokeWidth="22"
+      android:strokeLineCap="round" android:fillColor="#00000000" android:pathData="M204,452 L392,452"/>
+</vector>

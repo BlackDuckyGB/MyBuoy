@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MyBuoy. Copyright (C) 2026 Golden-Block.
+     SPDX-License-Identifier: AGPL-3.0-or-later
+     Commercial licensing: licence@golden-block.fr -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="searchItem"
+            type="com.gb.mybuoy.GeoSearchItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.gb.mybuoy.MainActivity">
+
+        <!-- #67 : la ligne d'un resultat de recherche. Elle ressemble a celle des marques perso,
+             mais c'est un fichier a part : la page des marques n'est pas touchee. Un clic sur la
+             ligne elle-meme ne fait rien pour l'instant, seul le bouton de droite agit. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imgIcon"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@{searchItem.icon}"
+                    app:srcCompat="@drawable/ic_search_result"
+                    tools:srcCompat="@drawable/ic_search_result" />
+
+                <!-- La nature du lieu, sous l'icone. La taille se reduit d'elle-meme jusqu'a 6sp
+                     pour tenir dans les 64 dp ; si le mot ne tient toujours pas, fitOrHide efface
+                     la ligne plutot que de la couper au milieu. -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvType"
+                    android:layout_width="match_parent"
+                    android:layout_height="14dp"
+                    android:gravity="center_horizontal"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:textColor="#666666"
+                    app:autoSizeMaxTextSize="11sp"
+                    app:autoSizeMinTextSize="6sp"
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform"
+                    app:fitOrHide="@{searchItem.typeLabel}" />
+
+                <!-- Le type d'objet OSM (node, way, relation). Il ne sert qu'a departager deux
+                     reponses par ailleurs identiques, d'ou la taille reduite. -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvOsmType"
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:gravity="center_horizontal"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:textColor="#999999"
+                    app:autoSizeMaxTextSize="9sp"
+                    app:autoSizeMinTextSize="6sp"
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform"
+                    app:fitOrHide="@{searchItem.osmTypeLabel}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{searchItem.title}"
+                    app:alarmedTitle="@{searchItem.alarmed}"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvLat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="@{searchItem.latitudeString}"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/tvLon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="@{searchItem.longitudeString}"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/tvDistance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{searchItem.distanceString}" />
+
+                <!-- L'adresse complete rendue par Nominatim : c'est elle qui distingue dix "12 rue
+                     de la Gare" les uns des autres. -->
+                <TextView
+                    android:id="@+id/tvLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:text="@{searchItem.label}"
+                    android:textColor="#666666"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imgDir"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:src="@{searchItem.arrowBitmap}" />
+
+            <Button
+                android:id="@+id/btnCreate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:onClick="@{() -> searchItem.onButton()}"
+                android:text="@{searchItem.buttonLabel}" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

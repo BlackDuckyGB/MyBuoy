@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MyBuoy. Copyright (C) 2026 Golden-Block.
+     SPDX-License-Identifier: AGPL-3.0-or-later
+     Commercial licensing: licence@golden-block.fr -->
+<!-- #54 : page de configuration d'un compas. On choisit un point cardinal dans la rose, on met le
+     bateau a ce cap d'apres son propre compas (la fleche au centre montre ou tourner et pointe
+     vers le haut une fois arrive), puis on regle avec - / + jusqu'a ce que le cap M corresponde.
+     Le cap M passe par la meme conversion que celle destinee au cap de navigation : declinaison
+     automatique, correction additionnelle, puis la carte de deviation INTERPOLEE. Les 8 valeurs y
+     entrent donc, pas seulement celle qu'on est en train de regler.
+     Un seul defilement pour tout le contenu. Sur un ecran couche il faut faire defiler pour voir la
+     courbe, mais les 8 points cardinaux et les gros boutons restent visibles ensemble : c'est ce
+     qu'on a sous les yeux pendant un reglage. -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="appManager"
+            type="com.gb.mybuoy.AppManager" />
+
+        <variable
+            name="viewsController"
+            type="com.gb.mybuoy.ViewsController" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Ligne du titre, seule chose fixe : le nom du compas et ce qu'on peut en faire. -->
+        <LinearLayout
+            android:id="@+id/llTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="4dp"
+            android:paddingRight="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/etName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Compass name"
+                android:imeOptions="actionDone"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:text="@={appManager.compassEditName}"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnClone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:paddingEnd="10dp"
+                android:paddingRight="10dp"
+                android:text="Clone"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:paddingEnd="10dp"
+                android:paddingRight="10dp"
+                android:text="Delete"
+                android:textSize="13sp" />
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/ic_btn48_background"
+                android:scaleType="center"
+                app:srcCompat="@drawable/btn_cancel" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/llTitle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="12dp"
+                android:paddingLeft="12dp"
+                android:paddingEnd="12dp"
+                android:paddingRight="12dp">
+
+                <include
+                    layout="@layout/layout_param_block_header"
+                    app:title='@{"Declination"}' />
+
+                <include
+                    layout="@layout/layout_param_row_switch"
+                    app:checked="@{appManager.declAuto}"
+                    app:desc='@{"Computed by Android from your position: " + appManager.declAutoModelString + ". Every correction here is shown as it is added to the heading, so this one counts as " + appManager.declAutoString + "."}'
+                    app:icon="@{@drawable/ic_declination_auto}"
+                    app:name='@{"Automatic declination"}'
+                    app:onCheckedChanged="@{(button, isChecked) -> appManager.setDeclAuto(isChecked)}" />
+
+                <include
+                    layout="@layout/layout_param_row_spinner"
+                    app:desc='@{"Global to the application: not part of this compass, every compass shares it."}'
+                    app:icon="@{@drawable/ic_declination}"
+                    app:name='@{"Additional correction"}'
+                    app:onPositionChanged="@{(pos) -> appManager.setDeclSpinnerPos(pos)}"
+                    app:position="@{appManager.declSpinnerPos}"
+                    app:values="@{appManager.declValues}" />
+
+                <include
+                    layout="@layout/layout_param_block_header"
+                    app:title='@{"Deviation card"}' />
+
+                <!-- La courbe suivie par la correction : elle passe par les 8 valeurs reglees et
+                     se raccorde sans cassure d'un bord a l'autre. -->
+                <com.gb.mybuoy.CompassCurveView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginBottom="8dp"
+                    app:deviations="@{appManager.adjustCurveData}"
+                    app:headingMagnetic="@{appManager.adjustHeadingMagnetic}"
+                    app:headingTrue="@{appManager.adjustHeadingTrue}"
+                    app:selectedSector="@{appManager.adjustSector}" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <include
+                        layout="@layout/layout_compass_sector"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        app:appManager="@{appManager}"
+                        app:sector="@{appManager.compassSectors[7]}" />
+
+                    <include
+                        layout="@layout/layout_compass_sector"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        app:appManager="@{appManager}"
+                        app:sector="@{appManager.compassSectors[0]}" />
+
+                    <include
+                        layout="@layout/layout_compass_sector"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        app:appManager="@{appManager}"
+                        app:sector="@{appManager.compassSectors[1]}" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <include
+                        layout="@layout/layout_compass_sector"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        app:appManager="@{appManager}"
+                        app:sector="@{appManager.compassSectors[6]}" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <!-- Ecartes aux deux coins du haut : le cap vrai a gauche, et a droite la
+                             fleche qui montre ou tourner pour atteindre le cap a regler. Elle pointe
+                             vers le haut quand le cap M indique le cap vise. -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{appManager.adjustTrueString}"
+                                android:textColor="#888888"
+                                android:textSize="14sp" />
+
+                            <Space
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:contentDescription="Heading to steer"
+                                android:src="@{appManager.adjustArrowBadge}" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{appManager.adjustMagString}"
+                            android:textColor="@android:color/black"
+                            android:textSize="30sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <include
+                        layout="@layout/layout_compass_sector"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        app:appManager="@{appManager}"
+                        app:sector="@{appManager.compassSectors[2]}" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <include
+                        layout="@layout/layout_compass_sector"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        app:appManager="@{appManager}"
+                        app:sector="@{appManager.compassSectors[5]}" />
+
+                    <include
+                        layout="@layout/layout_compass_sector"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        app:appManager="@{appManager}"
+                        app:sector="@{appManager.compassSectors[4]}" />
+
+                    <include
+                        layout="@layout/layout_compass_sector"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        app:appManager="@{appManager}"
+                        app:sector="@{appManager.compassSectors[3]}" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="4dp"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="4dp"
+                    android:paddingRight="4dp"
+                    android:text="@{appManager.adjustInstructionString}"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="10dp">
+
+                    <Button
+                        android:id="@+id/btnMinus"
+                        android:layout_width="92dp"
+                        android:layout_height="60dp"
+                        android:onClick="@{(view) -> appManager.adjustDeviation(-1)}"
+                        android:text="-"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@{appManager.adjustValueString}"
+                        android:textColor="@android:color/black"
+                        android:textSize="19sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnPlus"
+                        android:layout_width="92dp"
+                        android:layout_height="60dp"
+                        android:onClick="@{(view) -> appManager.adjustDeviation(1)}"
+                        android:text="+"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

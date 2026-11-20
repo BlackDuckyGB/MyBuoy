@@ -1,0 +1,881 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ MyBuoy — outdoor navigation & mark-tracking for boating, hiking, foraging and discovery walks.
+  ~ Copyright (C) 2026 Golden-Block
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ For commercial licensing (use without AGPL obligations), contact:
+  ~ licence@golden-block.fr
+  -->
+<!-- Everything scrolls, as on the tide page: there is no landscape variant, so the page
+     has to survive a short screen on its own. -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewsController"
+            type="com.gb.mybuoy.ViewsController" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.gb.mybuoy.MainActivity">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:text="Sun &amp; moon"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            android:id="@+id/svSunMoon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="24dp"
+                android:paddingLeft="24dp"
+                android:paddingEnd="24dp"
+                android:paddingRight="24dp"
+                android:paddingBottom="24dp">
+
+                <TextView
+                    android:id="@+id/tvWait"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:text="Working out the sky..."
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:id="@+id/llSky"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <!-- Same shape as the tide page, so the two read alike. The button is
+                         kept but invisible: there is no other place to pick here yet, and
+                         reserving its room now means the line will not jump when there is. -->
+                    <LinearLayout
+                        android:id="@+id/rowPlace"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingTop="6dp">
+
+                        <TextView
+                            android:id="@+id/tvPlace"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="#1565C0"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            tools:text="Current position" />
+
+                        <Button
+                            android:id="@+id/btnPlaceSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:minWidth="0dp"
+                            android:text="Other place"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvDay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="2dp"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:text="Saturday 24 October 2026" />
+
+                    <!-- ============ choosing another place ============ -->
+                    <LinearLayout
+                        android:id="@+id/llSkyPicker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+
+                        <!-- Offered only when it is not already what is on screen, so neither
+                             button ever leads back to the page it was pressed from. -->
+                        <Button
+                            android:id="@+id/btnSkyCurrentPlace"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sun and moon where I am"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/btnSkyLastPlace"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            tools:text="Tides at Saint-Malo" />
+
+                        <TextView
+                            android:id="@+id/tvSkyLookUp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="16dp"
+                            android:textSize="15sp"
+                            tools:text="Or look up a place: a town, a harbour, an island." />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingTop="4dp">
+
+                            <EditText
+                                android:id="@+id/etSkyPlace"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginRight="8dp"
+                                android:layout_weight="1"
+                                android:hint="Place name"
+                                android:imeOptions="actionSearch"
+                                android:inputType="text"
+                                android:maxLines="1" />
+
+                            <Button
+                                android:id="@+id/btnSkyPlaceSearch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Search" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvSkyPlaceStatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="6dp"
+                            android:textSize="13sp"
+                            android:visibility="gone"
+                            tools:text="Searching..." />
+
+                        <LinearLayout
+                            android:id="@+id/llSkyPlaceResults"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingTop="4dp" />
+                    </LinearLayout>
+
+                    <!-- Everything the page shows, hidden as one while another place is
+                         being picked: the picker is then the page, as on the tide page. -->
+                    <LinearLayout
+                        android:id="@+id/llSkyBody"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- ============ the day, as it stands NOW ============ -->
+                        <!-- Everything in here is anchored to the present and does NOT follow
+                             the curve: the map above answers "what does the sky look like at
+                             the moment I am pointing at", this answers "where am I in the day".
+                             The two questions want different anchors, and mixing them would
+                             turn a countdown into a count from a date nobody chose. -->
+                        <TextView
+                            android:id="@+id/tvNextEvent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="10dp"
+                            android:textSize="15sp"
+                            tools:text="Now: night in 2h14" />
+
+                        <!-- The two side by side: where the bodies are in their own day on the
+                             left, how dark it is on the right. They answer the same question
+                             from two ends and belong on one line. -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal"
+                            android:paddingBottom="10dp">
+
+                            <GridLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:columnCount="4"
+                                android:paddingBottom="8dp">
+
+                                <!-- One icon for the pair: it spans both rows, which is what ties
+                                     the two times to the body they belong to. -->
+                                <ImageView
+                                    android:layout_width="26dp"
+                                    android:layout_height="26dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:layout_rowSpan="2"
+                                    app:srcCompat="@drawable/ic_day_sun" />
+
+                                <TextView
+                                    android:id="@+id/tvDaySunNextRise"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:minWidth="14dp"
+                                    android:textSize="13sp"
+                                    tools:text="\u2192" />
+
+                                <TextView
+                                    android:id="@+id/tvDaySunLabelRise"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="6dp"
+                                    android:layout_marginRight="6dp"
+                                    android:text="rise"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/tvDaySunRise"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="13sp"
+                                    tools:text="08:47" />
+
+                                <TextView
+                                    android:id="@+id/tvDaySunNextSet"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:minWidth="14dp"
+                                    android:textSize="13sp"
+                                    tools:text="\u2192" />
+
+                                <TextView
+                                    android:id="@+id/tvDaySunLabelSet"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="6dp"
+                                    android:layout_marginRight="6dp"
+                                    android:text="set"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/tvDaySunSet"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="13sp"
+                                    tools:text="08:47" />
+
+                                <!-- One icon for the pair: it spans both rows, which is what ties
+                                     the two times to the body they belong to. -->
+                                <ImageView
+                                    android:layout_width="26dp"
+                                    android:layout_height="26dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:layout_rowSpan="2"
+                                    app:srcCompat="@drawable/ic_day_moon" />
+
+                                <TextView
+                                    android:id="@+id/tvDayMoonNextRise"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:minWidth="14dp"
+                                    android:textSize="13sp"
+                                    tools:text="\u2192" />
+
+                                <TextView
+                                    android:id="@+id/tvDayMoonLabelRise"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="6dp"
+                                    android:layout_marginRight="6dp"
+                                    android:text="rise"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/tvDayMoonRise"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="13sp"
+                                    tools:text="08:47" />
+
+                                <TextView
+                                    android:id="@+id/tvDayMoonNextSet"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:minWidth="14dp"
+                                    android:textSize="13sp"
+                                    tools:text="\u2192" />
+
+                                <TextView
+                                    android:id="@+id/tvDayMoonLabelSet"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="6dp"
+                                    android:layout_marginRight="6dp"
+                                    android:text="set"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/tvDayMoonSet"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="13sp"
+                                    tools:text="08:47" />
+                            </GridLayout>
+
+                            <Space
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_weight="1" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                        android:gravity="end"
+                                    android:layout_height="wrap_content"
+                                    android:paddingTop="4dp"
+                                    android:paddingBottom="2dp"
+                                    android:text="Twilight"
+                                    android:textColor="#546E7A"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+
+                                <GridLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:columnCount="4"
+                                    android:paddingBottom="10dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="8dp"
+                                        android:layout_marginRight="8dp"
+                                        android:text="Civil"
+                                        android:textSize="12sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:text="-6\u00b0"
+                                        android:textColor="#90A4AE"
+                                        android:textSize="11sp" />
+
+                                    <TextView
+                                        android:id="@+id/tvTwCivilBegin"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="8dp"
+                                        android:layout_marginRight="8dp"
+                                        android:textSize="12sp"
+                                        tools:text="08:15" />
+
+                                    <TextView
+                                        android:id="@+id/tvTwCivilEnd"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="12sp"
+                                        tools:text="19:42" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="8dp"
+                                        android:layout_marginRight="8dp"
+                                        android:text="Nautical"
+                                        android:textSize="12sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:text="-12\u00b0"
+                                        android:textColor="#90A4AE"
+                                        android:textSize="11sp" />
+
+                                    <TextView
+                                        android:id="@+id/tvTwNauticalBegin"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="8dp"
+                                        android:layout_marginRight="8dp"
+                                        android:textSize="12sp"
+                                        tools:text="08:15" />
+
+                                    <TextView
+                                        android:id="@+id/tvTwNauticalEnd"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="12sp"
+                                        tools:text="19:42" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="8dp"
+                                        android:layout_marginRight="8dp"
+                                        android:text="Astronomical"
+                                        android:textSize="12sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:text="-18\u00b0"
+                                        android:textColor="#90A4AE"
+                                        android:textSize="11sp" />
+
+                                    <TextView
+                                        android:id="@+id/tvTwAstroBegin"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="8dp"
+                                        android:layout_marginRight="8dp"
+                                        android:textSize="12sp"
+                                        tools:text="08:15" />
+
+                                    <TextView
+                                        android:id="@+id/tvTwAstroEnd"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="12sp"
+                                        tools:text="19:42" />
+                                </GridLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+                        <!-- The sky itself, before the figures: where to look comes first.
+                             The two emblems sit in the upper corners, where the disc leaves
+                             room: the Sun as a dial on the left, the Moon showing its phase
+                             on the right. Both follow the mark on the curve below. -->
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="215dp">
+
+                            <com.gb.mybuoy.astro.SkyView
+                                android:id="@+id/skyView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_horizontal" />
+
+                            <com.gb.mybuoy.astro.SunDialView
+                                android:id="@+id/sunDial"
+                                android:layout_width="74dp"
+                                android:layout_height="74dp"
+                                android:layout_gravity="top|start" />
+
+                            <!-- Six cells in three columns: an arrow, a name and an hour,
+                                 twice over. The grid is what lines the hours up under one
+                                 another, which a proportional face cannot do on its own and
+                                 which a monospaced one would do at the cost of looking
+                                 foreign to the rest of the page. -->
+                            <GridLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top|start"
+                                android:layout_marginStart="4dp"
+                                android:layout_marginLeft="4dp"
+                                android:layout_marginTop="78dp"
+                                android:columnCount="3">
+
+                                <TextView
+                                    android:id="@+id/tvSunNextRise"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:minWidth="12dp"
+                                    android:textSize="11sp"
+                                    tools:text="\u2192" />
+
+                                <TextView
+                                    android:id="@+id/tvSunLabelRise"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="5dp"
+                                    android:layout_marginRight="5dp"
+                                    android:text="rise"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:id="@+id/tvSunRise"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="11sp"
+                                    tools:text="08:47" />
+
+                                <TextView
+                                    android:id="@+id/tvSunNextSet"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:minWidth="12dp"
+                                    android:textSize="11sp"
+                                    tools:text="\u2192" />
+
+                                <TextView
+                                    android:id="@+id/tvSunLabelSet"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="5dp"
+                                    android:layout_marginRight="5dp"
+                                    android:text="set"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:id="@+id/tvSunSet"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="11sp"
+                                    tools:text="08:47" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:minWidth="12dp"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="5dp"
+                                    android:layout_marginRight="5dp"
+                                    android:text="\u2220"
+                                    android:textColor="#90A4AE"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:id="@+id/tvSunAngle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#546E7A"
+                                    android:textSize="11sp"
+                                    tools:text="23\u00b0" />
+
+                            </GridLayout>
+
+                            <!-- Six cells in three columns: an arrow, a name and an hour,
+                                 twice over. The grid is what lines the hours up under one
+                                 another, which a proportional face cannot do on its own and
+                                 which a monospaced one would do at the cost of looking
+                                 foreign to the rest of the page. -->
+                            <GridLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top|end"
+                                android:layout_marginTop="78dp"
+                                android:layout_marginEnd="4dp"
+                                android:layout_marginRight="4dp"
+                                android:columnCount="3">
+
+                                <TextView
+                                    android:id="@+id/tvMoonNextRise"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:minWidth="12dp"
+                                    android:textSize="11sp"
+                                    tools:text="\u2192" />
+
+                                <TextView
+                                    android:id="@+id/tvMoonLabelRise"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="5dp"
+                                    android:layout_marginRight="5dp"
+                                    android:text="rise"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:id="@+id/tvMoonRise"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="11sp"
+                                    tools:text="08:47" />
+
+                                <TextView
+                                    android:id="@+id/tvMoonNextSet"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:minWidth="12dp"
+                                    android:textSize="11sp"
+                                    tools:text="\u2192" />
+
+                                <TextView
+                                    android:id="@+id/tvMoonLabelSet"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="5dp"
+                                    android:layout_marginRight="5dp"
+                                    android:text="set"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:id="@+id/tvMoonSet"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="11sp"
+                                    tools:text="08:47" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:minWidth="12dp"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="5dp"
+                                    android:layout_marginRight="5dp"
+                                    android:text="\u2220"
+                                    android:textColor="#90A4AE"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:id="@+id/tvMoonAngle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#546E7A"
+                                    android:textSize="11sp"
+                                    tools:text="23\u00b0" />
+
+                            </GridLayout>
+
+                            <!-- The mirror of the moon's two figures: hard against the right
+                                 of the sun, and right-aligned so that anything added later
+                                 stacks against the same edge. -->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top|start"
+                                android:layout_marginStart="80dp"
+                                android:layout_marginLeft="80dp"
+                                android:layout_marginTop="12dp"
+                                android:gravity="end"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvDaylight"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#546E7A"
+                                    android:textSize="11sp"
+                                    tools:text="daylight 10h23" />
+                            </LinearLayout>
+
+                            <!-- Hard against the left of the moon, so the two figures read as
+                                 belonging to it. Right-anchored with a margin the width of the
+                                 disc, left-aligned inside. -->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top|end"
+                                android:layout_marginTop="12dp"
+                                android:layout_marginEnd="64dp"
+                                android:layout_marginRight="64dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvMoonDistance"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="start"
+                                    android:textColor="#546E7A"
+                                    android:textSize="11sp"
+                                    tools:text="390292 km" />
+
+                                <TextView
+                                    android:id="@+id/tvMoonAge"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="start"
+                                    android:textColor="#546E7A"
+                                    android:textSize="11sp"
+                                    tools:text="age 27.3 d" />
+                            </LinearLayout>
+
+                            <com.gb.mybuoy.astro.MoonPhaseView
+                                android:id="@+id/moonPhase"
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
+                                android:layout_marginTop="6dp"
+                                android:layout_marginEnd="6dp"
+                                android:layout_marginRight="6dp"
+                                android:layout_gravity="top|end" />
+                            <!-- Title and legend both ride on the map, in the two bottom
+                                 corners a circle leaves free. Neither costs the page a row,
+                                 and both sit directly above the curve they name. -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|start"
+                                android:text="Earth tide"
+                                android:textColor="#1565C0"
+                                android:textSize="17sp"
+                                android:textStyle="bold" />
+
+                            <!-- The legend rides on the map rather than taking a row of its
+                                 own: the corners of a square holding a circle are free, and the
+                                 page has to fit one screen. A negative margin would have done
+                                 it too, but a child laid outside its parent is clipped unless
+                                 every container above it is told not to, which is a lot of
+                                 scaffolding for the same result. -->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|end"
+                                android:background="@drawable/bg_legend"
+                                android:orientation="vertical"
+                                android:paddingStart="10dp"
+                                android:paddingLeft="10dp"
+                                android:paddingTop="6dp"
+                                android:paddingEnd="12dp"
+                                android:paddingRight="12dp"
+                                android:paddingBottom="6dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:paddingBottom="4dp">
+
+                                    <View
+                                        android:layout_width="18dp"
+                                        android:layout_height="10dp"
+                                        android:layout_marginEnd="8dp"
+                                        android:layout_marginRight="8dp"
+                                        android:background="#1565C0" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Gravity"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:paddingBottom="4dp">
+
+                                    <View
+                                        android:layout_width="18dp"
+                                        android:layout_height="10dp"
+                                        android:layout_marginEnd="8dp"
+                                        android:layout_marginRight="8dp"
+                                        android:background="#00897B" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:lineSpacingExtra="-2dp"
+                                        android:text="Ground\nheight"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="18dp"
+                                        android:layout_height="10dp"
+                                        android:layout_marginEnd="8dp"
+                                        android:layout_marginRight="8dp"
+                                        android:background="#D32F2F" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Now"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </FrameLayout>
+
+
+                        <!-- ============ the earth tide ============ -->
+
+                        <com.gb.mybuoy.astro.EarthTideView
+                            android:id="@+id/earthTide"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp" />
+
+                        <TextView
+                            android:id="@+id/tvDisclaimer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:lineSpacingExtra="2dp"
+                            android:paddingTop="14dp"
+                            android:text="Computed offline from the IAU standard algorithms. Times are given in the clock of this device, for the position shown."
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/ic_btn48_background"
+                android:scaleType="center"
+                app:srcCompat="@drawable/btn_cancel" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

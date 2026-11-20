@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#2196f3</color>
+    <color name="white">#FFFFFF</color>
+
+    <!-- fond de l'ecran d'attente : le systeme et le notre doivent etre du meme bleu -->
+    <color name="splash_bg">#0B1F33</color>
+
+    <!-- #36 : le rouge de la ligne "Debug mode" de la page des parametres, et d'elle seule. -->
+    <color name="param_red">#D32F2F</color>
+
+    <!-- Easter egg : la barre de progression du niveau. Verte tant qu'elle monte, orange au
+         premier cran de hurry up, rouge au second. -->
+    <color name="game_bar_ok">#2E7D32</color>
+    <color name="game_bar_warn">#EF6C00</color>
+    <color name="game_bar_bad">#D32F2F</color>
+    <color name="game_bar_track">#33000000</color>
+    <color name="game_bar_separator">#55FFFFFF</color>
+</resources>

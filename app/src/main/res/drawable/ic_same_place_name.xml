@@ -1,0 +1,18 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <path android:fillColor="#2196f3"
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"/>
+  <!-- Une etiquette : c'est le NOM qu'on compare -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="20" android:strokeLineJoin="round"
+      android:fillColor="#00000000"
+      android:pathData="M112,180 L300,180 L400,256 L300,332 L112,332 Z"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M148,236 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0"/>
+  <path android:strokeColor="#fafafa" android:strokeWidth="16" android:strokeLineCap="round"
+      android:fillColor="#00000000" android:pathData="M212,256 L288,256"/>
+  <!-- Deux etiquettes identiques -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="16" android:strokeLineCap="round"
+      android:strokeAlpha="0.5" android:fillColor="#00000000"
+      android:pathData="M150,388 L362,388"/>
+</vector>

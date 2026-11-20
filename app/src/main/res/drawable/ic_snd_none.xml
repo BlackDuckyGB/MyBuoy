@@ -1,0 +1,6 @@
+<!-- #81 : pas de son. Haut-parleur barre. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp" android:height="32dp" android:viewportWidth="48" android:viewportHeight="48">
+    <path android:fillColor="#888888" android:pathData="M6,19 L14,19 L24,10 L24,38 L14,29 L6,29 Z" />
+    <path android:fillColor="#D32F2F" android:pathData="M30,17.5 L32.5,15 L38,20.5 L43.5,15 L46,17.5 L40.5,23 L46,28.5 L43.5,31 L38,25.5 L32.5,31 L30,28.5 L35.5,23 Z" />
+</vector>

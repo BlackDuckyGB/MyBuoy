@@ -1,0 +1,18 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <path android:fillColor="#2196f3"
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"/>
+  <!-- Deux punaises superposees : le meme lieu, deja marque -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="20" android:strokeLineJoin="round"
+      android:fillColor="#00000000" android:strokeAlpha="0.45"
+      android:pathData="M196,96 C152,96 116,132 116,176 C116,222 196,290 196,290 C196,290 276,222 276,176 C276,132 240,96 196,96 Z"/>
+  <path android:strokeColor="#fafafa" android:strokeWidth="22" android:strokeLineJoin="round"
+      android:fillColor="#00000000"
+      android:pathData="M300,140 C256,140 220,176 220,220 C220,266 300,334 300,334 C300,334 380,266 380,220 C380,176 344,140 300,140 Z"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M272,214 a28,28 0 1,0 56,0 a28,28 0 1,0 -56,0"/>
+  <!-- La petite distance qui les separe -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="16" android:strokeLineCap="round"
+      android:fillColor="#00000000" android:pathData="M150,400 L362,400 M150,384 L150,416 M362,384 L362,416"/>
+</vector>

@@ -1,0 +1,19 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <path android:fillColor="#2196f3"
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"/>
+  <!-- La boite dans laquelle on cherche -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="16" android:strokeLineJoin="round"
+      android:pathData="M112,112 L400,112 L400,400 L112,400 Z"
+      android:fillColor="#00000000"/>
+  <!-- Position courante, au centre -->
+  <path android:fillColor="#fafafa"
+      android:pathData="M236,256 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0"/>
+  <!-- Loupe : c'est un rayon de RECHERCHE -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="20" android:fillColor="#00000000"
+      android:pathData="M268,196 a56,56 0 1,0 112,0 a56,56 0 1,0 -112,0"/>
+  <path android:strokeColor="#fafafa" android:strokeWidth="26" android:strokeLineCap="round"
+      android:fillColor="#00000000"
+      android:pathData="M362,238 L402,278"/>
+</vector>

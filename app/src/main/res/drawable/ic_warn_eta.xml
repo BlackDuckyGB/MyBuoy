@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <path android:fillColor="#2196f3"
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"/>
+  <!-- Panneau de danger -->
+  <path android:fillColor="#fafafa"
+      android:pathData="M212,96 L302,244 L122,244 Z"/>
+  <path android:fillColor="#2196f3"
+      android:pathData="M200,154 L224,154 L220,204 L204,204 Z M200,214 L224,214 L224,230 L200,230 Z"/>
+  <!-- Horloge : le temps restant avant le danger -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="24" android:fillColor="#00000000"
+      android:pathData="M204,342 a100,100 0 1,0 200,0 a100,100 0 1,0 -200,0"/>
+  <path android:strokeColor="#fafafa" android:strokeWidth="22" android:strokeLineCap="round"
+      android:fillColor="#00000000"
+      android:pathData="M304,342 L304,286 M304,342 L348,364"/>
+</vector>

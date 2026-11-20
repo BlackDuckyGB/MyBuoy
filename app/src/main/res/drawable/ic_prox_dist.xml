@@ -1,0 +1,19 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <path android:fillColor="#2196f3"
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"/>
+  <!-- Rayon de proximite -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="18" android:fillColor="#00000000"
+      android:pathData="M126,256 a130,130 0 1,0 260,0 a130,130 0 1,0 -260,0"/>
+  <!-- Position courante -->
+  <path android:fillColor="#fafafa"
+      android:pathData="M226,256 a30,30 0 1,0 60,0 a30,30 0 1,0 -60,0"/>
+  <!-- Deux marks dans le rayon, une dehors -->
+  <path android:fillColor="#fafafa"
+      android:pathData="M310,190 a22,22 0 1,0 44,0 a22,22 0 1,0 -44,0"/>
+  <path android:fillColor="#fafafa"
+      android:pathData="M172,320 a22,22 0 1,0 44,0 a22,22 0 1,0 -44,0"/>
+  <path android:fillColor="#fafafa" android:fillAlpha="0.4"
+      android:pathData="M400,404 a22,22 0 1,0 44,0 a22,22 0 1,0 -44,0"/>
+</vector>

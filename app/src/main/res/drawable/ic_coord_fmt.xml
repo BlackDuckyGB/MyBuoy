@@ -1,0 +1,13 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <path android:fillColor="#2196f3"
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"/>
+  <path android:strokeColor="#fafafa" android:strokeWidth="24" android:fillColor="#00000000"
+      android:pathData="M116,256 a140,140 0 1,0 280,0 a140,140 0 1,0 -280,0"/>
+  <!-- Parallele et meridien : la latitude et la longitude -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="20" android:fillColor="#00000000"
+      android:pathData="M116,256 L396,256"/>
+  <path android:strokeColor="#fafafa" android:strokeWidth="20" android:fillColor="#00000000"
+      android:pathData="M256,116 C186,166 186,346 256,396 C326,346 326,166 256,116 Z"/>
+</vector>

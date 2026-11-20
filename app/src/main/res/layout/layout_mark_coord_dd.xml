@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MyBuoy. Copyright (C) 2026 Golden-Block.
+     SPDX-License-Identifier: AGPL-3.0-or-later
+     Commercial licensing: licence@golden-block.fr -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="android.view.View" />
+        <import type="com.gb.mybuoy.AppManager" />
+        <variable name="mark" type="com.gb.mybuoy.PersonalMark" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="@{mark.coordFmt == AppManager.COORDFMT_DD ? View.VISIBLE : View.GONE}">
+
+        <!-- Latitude : [ decimal signe ]° (negatif = Sud, pas de bouton hemisphere) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:text="Latitude" />
+
+            <!-- Espaceur invisible = meme gabarit que le bouton N/S, pour aligner avec DM/DMS -->
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textAllCaps="false"
+                android:text="N"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/etLatDd"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned|numberDecimal"
+                android:text="@={mark.latitudeEditString}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="°" />
+        </LinearLayout>
+
+        <!-- Longitude : [ decimal signe ]° (negatif = Ouest) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:text="Longitude" />
+
+            <!-- Espaceur invisible = meme gabarit que le bouton W/E, pour aligner avec DM/DMS -->
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textAllCaps="false"
+                android:text="E"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/etLonDd"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned|numberDecimal"
+                android:text="@={mark.longitudeEditString}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="°" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

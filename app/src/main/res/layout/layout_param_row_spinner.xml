@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MyBuoy. Copyright (C) 2026 Golden-Block.
+     SPDX-License-Identifier: AGPL-3.0-or-later
+     Commercial licensing: licence@golden-block.fr -->
+<!-- #54 : ligne de reglage a valeurs discretes (nom + description a gauche, valeur a droite). Le
+     selecteur est maison plutot qu'un Spinner du systeme : celui-ci s'etale, laisse un large vide
+     entre la valeur et sa fleche, et ne s'aligne pas sur le bord droit comme le switch de la ligne
+     voisine. Ici la valeur et son triangle sont colles dans une largeur fixe, calee a droite. -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="com.gb.mybuoy.ValuePickerView.OnPositionChanged" />
+
+        <variable name="icon" type="android.graphics.drawable.Drawable" />
+        <variable name="name" type="String" />
+        <variable name="desc" type="String" />
+        <variable name="values" type="java.util.List&lt;String&gt;" />
+        <variable name="position" type="int" />
+        <variable name="onPositionChanged" type="OnPositionChanged" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="12dp">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:contentDescription="@{name}"
+            android:src="@{icon}" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{name}"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{desc}"
+                android:textColor="#888888"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <com.gb.mybuoy.ValuePickerView
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            app:onPositionChanged="@{onPositionChanged}"
+            app:position="@{position}"
+            app:values="@{values}" />
+    </LinearLayout>
+</layout>

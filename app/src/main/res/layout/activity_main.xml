@@ -1,0 +1,1230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MyBuoy. Copyright (C) 2026 Golden-Block.
+     SPDX-License-Identifier: AGPL-3.0-or-later
+     Commercial licensing: licence@golden-block.fr -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="appManager"
+            type="com.gb.mybuoy.AppManager" />
+        <variable
+            name="viewsController"
+            type="com.gb.mybuoy.ViewsController" />
+    </data>
+
+    <!-- #71 : la racine est un GBRootLayout (un ConstraintLayout) parce qu'elle est le seul ancetre
+         commun de la carte et des commandes posees dessus : un glissement demarre sur un bouton y est
+         repris et rendu a la carte. -->
+    <com.gb.mybuoy.GBRootLayout
+        android:id="@+id/mainRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.gb.mybuoy.MainActivity">
+
+
+        <com.gb.mybuoy.GBScrollView
+            android:id="@+id/ScVw"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#6D94D6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/LLvw"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
+
+        </com.gb.mybuoy.GBScrollView>
+
+        <!-- #70 : couche des commandes du haut (burger, colonne des marks, panneau mark, debug).
+             Elle porte un id pour recevoir les insets systeme en mode fenetre, la carte restant
+             elle plein cadre (cf. ViewsController.applyOverlayInsets). -->
+        <FrameLayout
+            android:id="@+id/overlayTop"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <!-- #67 : deux rangees. La premiere porte les boutons permanents, loupe puis
+                         burger ; la seconde les trois boutons de debug, qui descendent SOUS le
+                         burger au lieu de manger la place a sa gauche. En mode debug la colonne des
+                         marques de proximite est donc poussee de 40 dp vers le bas, et seulement la. -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:id="@+id/btnSearch"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_gravity="top"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginRight="8dp"
+                                android:background="@drawable/ic_btn64_background"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/ic_search"
+                                android:stateListAnimator="@animator/zone_btn_press"
+                                android:onClick="@{() -> viewsController.ShowSearchPage()}" />
+
+                            <ImageButton
+                                android:id="@+id/btnMaps"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_gravity="top"
+                                android:background="@drawable/ic_btn64_background"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/ic_burger"
+                                android:stateListAnimator="@animator/zone_btn_press"
+                                android:onClick="@{(v) -> viewsController.ShowMenuPopup(v)}"
+                                android:onLongClick="@{() -> viewsController.ShowMarksPageLong()}" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:orientation="horizontal"
+                            android:visibility="@{appManager.debugMode ? View.VISIBLE : View.GONE}">
+
+                            <Button
+                                android:id="@+id/btnFunction"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:onClick="@{() -> appManager.cycleDebugParam()}"
+                                android:text="F" />
+
+                            <Button
+                                android:id="@+id/btnLess"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:onClick="@{() -> appManager.debugMinus()}"
+                                android:text="-" />
+
+                            <Button
+                                android:id="@+id/btnMore"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:onClick="@{() -> appManager.debugPlus()}"
+                                android:text="+" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <ListView
+                        android:id="@+id/lvMarks"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="right"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="130dp"
+                        android:adapter="@{viewsController.proximityMarksAdapter}">
+
+                    </ListView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Top-left: selected-mark panel (#12/#13) stacked above the debug box. The box drops
+                 down when the panel is shown, and sits at the top (as before) when no mark selected. -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/markPanel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{() -> appManager.onPanelTap()}"
+                    android:orientation="vertical"
+                    android:visibility="@{appManager.markPanelVisible ? View.VISIBLE : View.GONE}">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <!-- Easter egg: the same 48dp slot carries either the usual direction
+                             arrow, or the game's life gauge: the ring of three lives underneath,
+                             the heart on top. The three images are stacked and visibility picks
+                             between them, so that they stay registered with each other. -->
+                        <FrameLayout
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="8dp">
+
+                            <ImageView
+                                android:id="@+id/imgMarkDir"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@{appManager.markArrowBadge}"
+                                android:visibility="@{appManager.arrowBadgeVisible ? View.VISIBLE : View.GONE}" />
+
+                            <ImageView
+                                android:id="@+id/imgGaugeRing"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@{appManager.gaugeRing}"
+                                android:visibility="@{appManager.gaugeVisible ? View.VISIBLE : View.GONE}" />
+
+                            <ImageView
+                                android:id="@+id/imgGaugeHeart"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@{appManager.gaugeHeart}"
+                                android:visibility="@{appManager.gaugeVisible ? View.VISIBLE : View.GONE}" />
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/tvMarkCap"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@{appManager.markCapString}"
+                            android:textColor="@android:color/black"
+                            android:textSize="48sp"
+                            android:textStyle="bold"
+                            android:visibility="@{appManager.markShown ? View.VISIBLE : View.INVISIBLE}" />
+
+                        <!-- Easter egg: level and score, to the right of the gauge and on two
+                             lines of 24dp, which is exactly its height. The heights are fixed
+                             rather than derived from the font: that is what keeps the block the
+                             same height as the icon whatever text size the phone is set to. -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical"
+                            android:visibility="@{appManager.gameInfoVisible ? View.VISIBLE : View.GONE}">
+
+                            <TextView
+                                android:id="@+id/tvGameLevel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="24dp"
+                                android:gravity="center_vertical"
+                                android:includeFontPadding="false"
+                                android:text="@{appManager.gameLevelLine}"
+                                android:textColor="@android:color/black"
+                                android:textSize="19sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvGameScore"
+                                android:layout_width="wrap_content"
+                                android:layout_height="24dp"
+                                android:gravity="center_vertical"
+                                android:includeFontPadding="false"
+                                android:maxLines="1"
+                                android:text="@{appManager.gameScoreLine}"
+                                android:textColor="@android:color/black"
+                                android:textSize="@{appManager.gameScoreTextSize}"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvMarkEta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{appManager.markEtaString}"
+                        android:textColor="@android:color/black"
+                        android:textSize="24sp"
+                        android:visibility="@{appManager.markShown ? View.VISIBLE : View.GONE}" />
+
+                    <TextView
+                        android:id="@+id/tvMarkName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{appManager.markNameString}"
+                        app:alarmedTitle="@{appManager.markAlarmed}"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="@{appManager.markShown ? View.VISIBLE : View.GONE}" />
+
+                    <!-- Easter egg: the same level and score as beside the gauge, in the only
+                         other place they fit. With a mark selected the slot beside the icon is
+                         taken by the heading, so the game comes down here, under the name, where
+                         the whole width is free: one line instead of two. The two visibilities
+                         are complementary, so only ever one of the blocks is on screen. -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="@{appManager.gameInfoUnderNameVisible ? View.VISIBLE : View.GONE}">
+
+                        <TextView
+                            android:id="@+id/tvGameLevelUnder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="6dp"
+                            android:text="@{appManager.gameLevelLine}"
+                            android:textColor="@android:color/black"
+                            android:textSize="19sp"
+                            android:textStyle="bold" />
+
+                        <!-- On one line the level and the score need something between them: a
+                             margin alone reads as two labels that happen to be side by side. -->
+                        <TextView
+                            android:id="@+id/tvGameSep"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="6dp"
+                            android:text="&#9671;"
+                            android:textColor="@android:color/black"
+                            android:textSize="19sp" />
+
+                        <TextView
+                            android:id="@+id/tvGameScoreUnder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="@{appManager.gameScoreLine}"
+                            android:textColor="@android:color/black"
+                            android:textSize="@{appManager.gameScoreTextSize}"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <!-- Easter egg: how far through the level the player is, one slot per wave.
+                         UNDER the panel and as wide as it, so there is one bar and not one per
+                         slot the level and score can sit in. Under it rather than over it because
+                         the rounded corner of the screen eats into the top one. -->
+                    <com.gb.mybuoy.WaveBar
+                        android:id="@+id/waveBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="6dp"
+                        android:layout_marginTop="2dp"
+                        app:waveWide="@{appManager.markShown}"
+                        app:waveProgress="@{appManager.waveProgress}"
+                        app:waveCount="@{appManager.waveCount}"
+                        app:waveStress="@{appManager.waveStress}"
+                        android:visibility="@{appManager.gameBarVisible ? View.VISIBLE : View.GONE}" />
+
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/debugBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{appManager.debugMode ? View.VISIBLE : View.GONE}">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="28dp"
+                android:layout_height="17dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="0dp"
+                android:text="Lat"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvLat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="0dp"
+                android:text="@{appManager.latitudeString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:text="Long"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvLong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="20dp"
+                android:text="@{appManager.longitudeString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="40dp"
+                android:text="Alt"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvAlt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="40dp"
+                android:text="@{appManager.altitudeString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="60dp"
+                android:text="Acc"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvAcc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="60dp"
+                android:text="@{appManager.accuracyString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="80dp"
+                android:text="Angle"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvAng"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="80dp"
+                android:text="@{appManager.directionAngleString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="100dp"
+                android:text="Speed"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvSpeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="100dp"
+                android:text="@{appManager.speedString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="120dp"
+                android:text="FPS"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvFPS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="120dp"
+                android:text="@{appManager.fpsString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView7Mem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="140dp"
+                android:text="Mem"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvMem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="140dp"
+                android:text="@{appManager.memString}"
+                android:textColor="#888888" />
+
+
+
+            <TextView
+                android:id="@+id/textView7Frame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="160dp"
+                android:text="Frame"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvFrame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="160dp"
+                android:text="@{appManager.frameString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView7Draw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="180dp"
+                android:text="Draw"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvDraw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="180dp"
+                android:text="@{appManager.drawString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView7Land"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="200dp"
+                android:text="Land"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvLand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="200dp"
+                android:text="@{appManager.landString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="220dp"
+                android:text="UI lag"
+                android:textColor="#888888" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="220dp"
+                android:text="@{appManager.uiLagString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="240dp"
+                android:text="Chunks"
+                android:textColor="#888888" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="240dp"
+                android:text="@{appManager.chunkCountsString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="260dp"
+                android:text="Last prep"
+                android:textColor="#888888" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="260dp"
+                android:text="@{appManager.lastPrepString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="280dp"
+                android:text="@{appManager.zoomLabel}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvZoom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="280dp"
+                android:text="@{appManager.zoomString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="300dp"
+                android:text="Tile's File"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvTiles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="300dp"
+                android:text="@{appManager.tileFileName}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="320dp"
+                android:text="Tile col:row"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvTile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="320dp"
+                android:text="@{appManager.tileFilePosString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="340dp"
+                android:text="I am"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvIAM"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="340dp"
+                android:text="@{appManager.whereIAmString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="360dp"
+                android:text="Version"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvVersion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="360dp"
+                android:text="@{appManager.versionString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="380dp"
+                android:text="@{appManager.anticipLabel}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvAnticip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="380dp"
+                android:text="@{appManager.anticipationString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textViewPredCapL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="400dp"
+                android:text="@{appManager.predCapLabel}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvPredCap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="400dp"
+                android:text="@{appManager.headingPredictString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textViewSpdWinL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="420dp"
+                android:text="@{appManager.spdWinLabel}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvSpdWin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="420dp"
+                android:text="@{appManager.spdWinString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="440dp"
+                android:text="@{appManager.traceLabel}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvTrace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="440dp"
+                android:text="@{appManager.traceString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="460dp"
+                android:text="@{appManager.nptsLabel}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvNpts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="460dp"
+                android:text="@{appManager.nptsString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="480dp"
+                android:text="@{appManager.overlayLabel}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvOverlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="480dp"
+                android:text="@{appManager.overlayString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textViewDeclL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="500dp"
+                android:text="@{appManager.declLabel}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvDecl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="500dp"
+                android:text="@{appManager.declString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textViewProxL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="520dp"
+                android:text="@{appManager.proxLabel}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvProx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="520dp"
+                android:text="@{appManager.proxString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textViewZoneWL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="540dp"
+                android:text="@{appManager.zoneWLabel}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvZoneW"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="540dp"
+                android:text="@{appManager.zoneWString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textViewCoordFmtL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="560dp"
+                android:text="@{appManager.coordFmtLabel}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvCoordFmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="560dp"
+                android:text="@{appManager.coordFmtString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textViewWarnDistL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="580dp"
+                android:text="@{appManager.warnDistLabel}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvWarnDist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="580dp"
+                android:text="@{appManager.warnDistString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textViewWarnEtaL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="600dp"
+                android:text="@{appManager.warnEtaLabel}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvWarnEta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="600dp"
+                android:text="@{appManager.warnEtaString}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/textViewGameLvlL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="620dp"
+                android:text="@{appManager.gameLevelLabel}"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvGameLvl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="620dp"
+                android:text="@{appManager.gameLevelString}"
+                android:textColor="#888888" />
+
+                </FrameLayout>
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/btnRecenter"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_gravity="start"
+                    android:layout_marginBottom="-8dp"
+                    android:background="@drawable/ic_btn64_background"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{() -> appManager.recenterOnPosition()}"
+                    android:visibility="@{appManager.recenterBtnVisible ? View.VISIBLE : View.GONE}">
+
+                    <!-- #52 : image = viseur (normal) ou balai (pause) ; chiffre du compte a rebours en overlay. -->
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:scaleType="center"
+                        android:duplicateParentState="true"
+                        android:src="@{appManager.recenterBtnIconRes}" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|end"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="@{appManager.recenterCountdown}"
+                        android:textColor="#fafafa"
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvMotionStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="@{appManager.motionStatus}"
+                    android:textColor="#2196F3"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/imageButton"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/ic_btn64_background"
+                        android:onClick="@{() -> appManager.addNewMark()}"
+                        android:scaleType="center"
+                        app:srcCompat="@drawable/btn_plus" />
+
+                    <ImageButton
+                        android:id="@+id/btnZone"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/ic_btn64_background"
+                        android:scaleType="center"
+                        android:stateListAnimator="@animator/zone_btn_press"
+                        android:onClick="@{() -> appManager.zoneCycle()}"
+                        android:onLongClick="@{() -> appManager.zoneDelete()}"
+                        android:src="@{appManager.zoneBtnIconRes}"
+                        android:visibility="@{appManager.zoneBtnVisible ? View.VISIBLE : View.GONE}" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvHeading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="right"
+                    android:includeFontPadding="false"
+                    android:onClick="@{() -> appManager.cycleHeadingMode()}"
+                    android:text="@{appManager.headingDisplayString}"
+                    android:textColor="@android:color/black"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvSpeed2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="right"
+                    android:onClick="@{() -> appManager.cycleSpeedUnit()}"
+                    android:text="@{appManager.getSpeedKmString}"
+                    android:textColor="@android:color/black"
+                    android:textSize="48sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvOpenStreetMap"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="© OpenStreetMap contributors" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+        <!-- Ecran d'attente : il couvre tout tant que la premiere zone de carte n'est pas chargee,
+             c'est-a-dire tant que currentChunk vaut null. Il est le dernier enfant de la racine,
+             donc au-dessus de tout le reste, et clickable pour avaler les clics qui le traversaient
+             sinon jusqu'aux commandes de la carte. -->
+        <FrameLayout
+            android:id="@+id/splash"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#0B1F33"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="@{appManager.splashVisible ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingStart="24dp"
+                android:paddingLeft="24dp"
+                android:paddingTop="28dp"
+                android:paddingEnd="24dp"
+                android:paddingRight="24dp"
+                android:paddingBottom="24dp">
+
+                <ImageView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:letterSpacing="0.06"
+                    android:text="@string/splash_title"
+                    android:textColor="#F2E8DA"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:alpha="0.55"
+                    android:text="@string/splash_loading"
+                    android:textColor="#CFE0EF"
+                    android:textSize="13sp" />
+
+                <com.gb.mybuoy.KnotView
+                    android:id="@+id/splashKnot"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/splashTip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="3dp"
+                    android:minLines="3"
+                    android:textColor="#CFE0EF"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/splashTipNext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="#17395C"
+                    android:paddingStart="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/splash_next_tip"
+                    android:textAllCaps="false"
+                    android:textColor="#CFE0EF"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </com.gb.mybuoy.GBRootLayout>
+
+</layout>

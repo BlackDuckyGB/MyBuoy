@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MyBuoy. Copyright (C) 2026 Golden-Block.
+     SPDX-License-Identifier: AGPL-3.0-or-later
+     Commercial licensing: licence@golden-block.fr -->
+<!-- #37 : paragraphe de texte courant de la page Support. Meme gouttiere que les en-tetes de
+     bloc (24dp) pour que le texte s'aligne sur eux. -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="text" type="String" />
+    </data>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="24dp"
+        android:paddingLeft="24dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="6dp"
+        android:lineSpacingExtra="3dp"
+        android:text="@{text}"
+        android:textColor="#5f6b74"
+        android:textSize="14sp" />
+</layout>

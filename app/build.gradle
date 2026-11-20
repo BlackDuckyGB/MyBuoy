@@ -1,0 +1,122 @@
+apply plugin: 'com.android.application'
+
+// FOR FireBase Add This:
+// apply plugin: 'com.google.gms.google-services' // FireBase Service
+
+// --- Versioning: Major.Minor.buildnumber -----------------------------------------------------
+// Major / Minor: set MANUALLY here.
+// Build number: AUTOMATIC — incremented on each assemble/install, stored in
+// app/version.properties (git-ignored so it doesn't pollute diffs).
+def versionMajor = 1
+def versionMinor = 0
+
+def versionPropsFile = file('version.properties')
+def buildNumber = 0
+if (versionPropsFile.exists()) {
+    def vp = new Properties()
+    versionPropsFile.withInputStream { vp.load(it) }
+    buildNumber = (vp['buildNumber'] ?: '0').toString().toInteger()
+}
+// Only increment on a real build (assemble/install), not on a plain sync or ./gradlew tasks.
+def isAssembling = gradle.startParameter.taskNames.any {
+    def t = it.toLowerCase()
+    t.contains('assemble') || t.contains('install') || t.contains('bundle')
+}
+if (isAssembling) {
+    buildNumber += 1
+    def vpOut = new Properties()
+    vpOut['buildNumber'] = buildNumber.toString()
+    versionPropsFile.withWriter { vpOut.store(it, 'Auto-managed build number - do not edit by hand') }
+}
+def computedVersionName = "${versionMajor}.${versionMinor}.${buildNumber}"
+def computedVersionCode = versionMajor * 1000000 + versionMinor * 1000 + buildNumber
+
+android {
+
+    namespace 'com.gb.mybuoy'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'com.gb.mybuoy'
+        minSdkVersion 21
+        targetSdkVersion 35
+        versionCode computedVersionCode
+        versionName computedVersionName
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+
+    // Add DataBinding Support
+    // Android Studio 4.0+
+    // dataBinding.enabled = true
+    /*
+    dataBinding {
+        enabled true
+    }
+    */
+    buildFeatures {
+       dataBinding true
+       viewBinding true
+       // AGP 8 no longer generates BuildConfig by default; MapInfo uses it.
+       buildConfig true
+    }
+
+    // HttpClient in sdk 23
+    useLibrary 'org.apache.http.legacy'
+
+
+    lint {
+        //ExpiredTargetSdkVersion
+        //disable 'Deprecation'
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // Align all Kotlin stdlib artifacts; since Kotlin 1.8 the jdk7/jdk8 stdlibs
+    // were merged into kotlin-stdlib, so old transitive 1.6.21 jdk7/jdk8 jars
+    // collide with 1.8.10. The BOM forces them to compatible stub versions.
+    implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.10')
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // HttpClient before sdk23
+    //implementation 'org.apache.httpcomponents:httpcore:4.4.10'
+    //implementation 'org.apache.httpcomponents:httpclient:4.5.6'
+
+    // Serialize/deserialize JSON
+    implementation 'com.google.code.gson:gson:2.8.7'
+
+    // New Verion of SQLite with RTREE support (SQLite Android Bindings officiels, 16 Ko-aligned)
+    implementation files('../libs/sqlite-android-3530400.aar')
+
+
+    // FireBase Service
+    // Import the Firebase BoM
+    //implementation platform('com.google.firebase:firebase-bom:28.4.0')
+
+    // Add the dependency for the Firebase SDK for Google Analytics
+    // When using the BoM, don't specify versions in Firebase dependencies
+    //implementation 'com.google.firebase:firebase-analytics'
+
+    // Add the dependencies for any other desired Firebase products
+    // https://firebase.google.com/docs/android/setup#available-libraries
+    //implementation 'com.google.firebase:firebase-messaging'
+}

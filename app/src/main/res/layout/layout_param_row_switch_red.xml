@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MyBuoy. Copyright (C) 2026 Golden-Block.
+     SPDX-License-Identifier: AGPL-3.0-or-later
+     Commercial licensing: licence@golden-block.fr -->
+<!-- #36 : la variante ROUGE de layout_param_row_switch, pour la ligne "Debug mode" et elle
+     seule, cherchee plusieurs fois par jour au milieu d'une vingtaine de lignes identiques.
+
+     Les memes variables que l'original, donc les deux includes sont interchangeables. Seules
+     changent la couleur du nom et le theme du switch. L'icone, elle, arrive par app:icon : la
+     page passe ic_menu_params_red, car une teinte ne colore pas une icone multicolore, elle
+     remplace TOUTES ses couleurs par une seule et le glyphe blanc disparaitrait. -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="icon" type="android.graphics.drawable.Drawable" />
+        <variable name="name" type="String" />
+        <variable name="desc" type="String" />
+        <variable name="checked" type="boolean" />
+        <variable name="onCheckedChanged" type="android.widget.CompoundButton.OnCheckedChangeListener" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="12dp">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:contentDescription="@{name}"
+            android:src="@{icon}" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{name}"
+                android:textColor="@color/param_red"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{desc}"
+                android:textColor="#888888"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:checked="@{checked}"
+            android:onCheckedChanged="@{onCheckedChanged}"
+            android:theme="@style/ParamRedSwitch" />
+    </LinearLayout>
+</layout>

@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <path android:fillColor="#2196f3"
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"/>
+  <!-- Position mesuree -->
+  <path android:fillColor="#fafafa"
+      android:pathData="M108,300 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0"/>
+  <!-- Projection vers l'avant -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="20" android:strokeLineCap="round"
+      android:fillColor="#00000000"
+      android:pathData="M196,286 L232,268 M262,252 L298,234 M328,218 L364,200"/>
+  <!-- Position anticipee -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="20" android:fillColor="#00000000"
+      android:pathData="M356,170 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0"/>
+</vector>

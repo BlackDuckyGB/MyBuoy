@@ -1,0 +1,18 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+  <!-- Icone generique des resultats de recherche : un lieu trouve, pas encore une marque. Elle est
+       volontairement neutre et CREUSE, la vraie marque etant pleine et coloree : la difference
+       entre un candidat et une marque enregistree se voit d'un coup d'oeil dans la liste. -->
+  <path
+      android:pathData="M256,62 C185,62 128,119 128,190 C128,264 208,360 240,440 C246,455 266,455 272,440 C304,360 384,264 384,190 C384,119 327,62 256,62 Z"
+      android:strokeColor="#78909c"
+      android:strokeWidth="34"
+      android:strokeLineJoin="round"
+      android:fillColor="#00000000"/>
+  <path
+      android:pathData="M210,144 a46,46 0 1,0 92,0 a46,46 0 1,0 -92,0 Z"
+      android:fillColor="#78909c"/>
+</vector>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #54 : correction de declinaison additionnelle. L'ecart entre le nord vrai (fleche grise) et le
+     nord magnetique (fleche bleue), c'est-a-dire l'angle que ce reglage ajoute. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:fillColor="#9e9e9e"
+        android:pathData="M24,5 L30,16 L26,16 L26,43 L22,43 L22,16 L18,16 Z" />
+    <group
+        android:pivotX="24"
+        android:pivotY="43"
+        android:rotation="24">
+        <path
+            android:fillColor="#2196f3"
+            android:pathData="M24,5 L30,16 L26,16 L26,43 L22,43 L22,16 L18,16 Z" />
+    </group>
+</vector>

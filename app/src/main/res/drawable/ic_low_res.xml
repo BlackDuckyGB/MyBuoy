@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="512" android:viewportHeight="512">
+  <!-- Disque bleu -->
+  <path android:fillColor="#2196f3"
+      android:pathData="m256,0c-141.164,0 -256,114.836 -256,256s114.836,256 256,256 256,-114.836 256,-256 -114.836,-256 -256,-256z"/>
+  <!-- Corps de la batterie -->
+  <path android:strokeColor="#fafafa" android:strokeWidth="26" android:fillColor="#00000000"
+      android:pathData="M132,196 L336,196 a18,18 0 0,1 18,18 L354,298 a18,18 0 0,1 -18,18 L132,316 a18,18 0 0,1 -18,-18 L114,214 a18,18 0 0,1 18,-18 z"/>
+  <!-- Borne -->
+  <path android:fillColor="#fafafa"
+      android:pathData="M370,226 L392,226 a12,12 0 0,1 12,12 L404,274 a12,12 0 0,1 -12,12 L370,286 z"/>
+  <!-- Charge restante : un seul segment, l'economie -->
+  <path android:fillColor="#fafafa"
+      android:pathData="M146,222 L196,222 L196,290 L146,290 z"/>
+</vector>
