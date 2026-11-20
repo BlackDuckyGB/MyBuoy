@@ -30,6 +30,7 @@ jobs:
           path-to-document: "https://github.com/BlackDuckyGB/MyBuoy/blob/main/CLA.md"
           branch: "cla-signatures"
           allowlist: "BlackDuckyGB,bot*"
+          custom-pr-sign-comment: "I have read the CLA Document and I hereby sign the CLA"
           custom-notsigned-prcomment: >-
             Thank you for your contribution! Before it can be merged, please read the
             [Contributor License Agreement](https://github.com/BlackDuckyGB/MyBuoy/blob/main/CLA.md)
