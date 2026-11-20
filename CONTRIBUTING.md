@@ -9,9 +9,9 @@ also offers it under a separate commercial license. To make this possible,
 **every contributor must accept the Contributor License Agreement (CLA)**
 before their contribution can be merged.
 
-You only sign it **once**. On your first Pull Request, a bot will
-automatically ask you to read and accept the CLA in one click. Until then,
-your PR stays blocked — nothing happens behind your back.
+You only sign it **once**. On your first Pull Request, a bot will post a
+comment asking you to read the CLA and sign it by replying with a given
+sentence. Until then, your PR stays blocked: nothing happens behind your back.
 
 By accepting the CLA you keep the copyright on your work, but you grant
 Golden-Block a broad license to use it (including under the commercial

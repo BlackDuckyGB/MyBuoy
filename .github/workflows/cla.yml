@@ -34,4 +34,8 @@ jobs:
           custom-notsigned-prcomment: >-
             Thank you for your contribution! Before it can be merged, please read the
             [Contributor License Agreement](https://github.com/BlackDuckyGB/MyBuoy/blob/main/CLA.md)
-            and sign it by posting the comment below. You only need to do this once.
+            and sign it: scroll down to the **Add a comment** box at the bottom of this
+            **Conversation** tab, paste the sentence below **exactly** (nothing before or
+            after it, no final period), then click **Comment**. Do not use Quote reply,
+            and do not comment on a line of code (Files changed tab or Review changes
+            button): those comments do not count. You only need to do this once.
