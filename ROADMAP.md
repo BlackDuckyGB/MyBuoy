@@ -13,36 +13,18 @@ Everything planned, under way and already done, straight from the working list. 
 - [ ] **🚧 Rework proximity alarms and extend them to personal marks**  
       *`feature №7` · [issue #1](https://github.com/BlackDuckyGB/MyBuoy/issues/1)*  
       The app warns you when you come near a mark, based on distance and on the time left before reaching it. Your own marks now use it too: each has its own alarm switch, and an armed mark is recognisable at a glance on the map and in the lists. Still to come: extending it to sea marks.
-- [ ] **🚧 Finish the icon set for personal marks**  
-      *`feature №30`*  
-      Round out the choice of pictures offered when creating a personal mark, which is too narrow today.
 - [ ] **🚧 Finish the Support the development page**  
       *`feature №37`*  
       A page explains what MyBuoy is, why the project is open, how to contribute and what the money is used for, with a link to the Telegram channel. Still to come: settling the payment methods.
-- [ ] **🚧 Avatar creation template**  
-      *`feature №58`*  
-      A blank sheet and a step-by-step guide for drawing a new avatar without starting from scratch: formats, order of the directions, alignment guides and integration steps.
-- [ ] **🚧 Muted mark alarm coming back, and one tap doing several things**  
-      *`fix №59`*  
-      A mark muted by tapping started sounding again as soon as the map reloaded, and a single tap could trigger several actions at once. A muted mark now stays muted for the whole session, while the visual alert still signals the danger.
 - [ ] **🚧 Edge arrow pointing to an off-screen alarming mark**  
       *`feature №60`*  
       A mark raising an alarm off screen was shown by nothing at all. An arrow now sits on the edge of the screen pointing at it, with the distance and, for a speed camera, the speed limit.
-- [ ] **🚧 New algorithm for the movement modes**  
-      *`feature №61`*  
-      The avatar changed as soon as the speed varied: a car stopped at a light turned back into a walker. The movement mode is now confirmed over time before being applied, and no longer drops back at the slightest slowdown.
-- [ ] **🚧 Publish the task list on GitHub in readable Markdown**  
-      *`feature №62`*  
-      The roadmap lives today in a spreadsheet, on a single computer. The goal is to publish it on GitHub in a form anyone can read, giving each task its state, its type and a description.
 - [ ] **🚧 Place and point-of-interest search**  
       *`feature №67` · [issue #2](https://github.com/BlackDuckyGB/MyBuoy/issues/2)*  
       A magnifier button to look a place up by name, a lighthouse or a supermarket, and get its coordinates, ready to be saved as a mark.
 - [ ] **🚧 Document the offline maps server API**  
       *`feature №69`*  
       Describe what a server must answer in order to hand out offline maps, so that anyone can host their own — the counterpart of the address becoming configurable.
-- [ ] **🚧 Broom button: clear measurements without leaving pan mode**  
-      *`feature №75`*  
-      A measurement point placed by mistake could be cleared, but the map jumped straight back to the boat position and the view being looked at was lost. The broom now clears the drawing while leaving the map exactly where it is, and the automatic recentring countdown restarts from five seconds. Each of the button's two actions now has its own sound, played on tap only: a muffled sweep for the erase, a soft bloup for the recentring. An automatic recentring stays silent.
 - [ ] **🚧 Loading screen at start-up**  
       *`feature №76`*  
       At start-up the map takes a moment to appear. A loading screen fills the wait: a rope ties itself into a knot, picked at random between a bowline and a figure-eight, while tips explain the gestures the application never shows anywhere.
@@ -58,30 +40,15 @@ Everything planned, under way and already done, straight from the working list. 
 - [ ] **🚧 Share a mark’s position**  
       *`feature №84`*  
       From a mark’s detail view, a button opens the phone’s share sheet and sends the place to whoever you like: the name, the coordinates and the icon travel with it. A recipient who has MyBuoy sees the mark open as it is; anyone else lands on a web page showing the position and offering to open it in their own map application. It also serves to share your current position, by opening a mark without saving it.
-- [ ] **🚧 Low-resource mode for modest phones**  
-      *`feature №85`*  
-      On an entry-level phone, the settings page and the map turn choppy. A single switch, turned on by the user in the settings, then cuts what is purely decorative without touching what is needed to navigate: avatar thumbnails stop animating, cosmetic sounds go quiet and the map redraws less often. Alarms, position and measurements are untouched.
 - [ ] **🚧 Local cache for Overpass data**  
       *`feature №86`*  
       Every chunk change asks Overpass again for that area's data, even when the app downloaded it moments ago. It is now kept in a cache folder whose name carries the area covered, and read back instead of downloaded again: moving from one chunk to the next gets snappier, the wait at startup shortens, and a small data plan lasts longer. A new Maintenance page shows the state of the cache and offers several ways to clear it. Double-tapping the map, which forces a reload, deliberately bypasses the cache.
-- [ ] **🚧 Double-tap: misleading reload messages, and travel mode reset**  
-      *`fix №89`*  
-      A double-tap on the map reloads the data around the current position and says so twice, once for the request and once for the confirmation. Trouble is, the confirmation also shows up when nobody asked for anything, in particular at app startup, suggesting a gesture that never happened. It will now appear only for a real double-tap, and when an offline map download finishes, where it is meaningful. The same double-tap also resets the travel mode to undetermined and rearms its timers, to start afresh whenever the avatar on screen no longer matches what you are doing.
 - [ ] **🚧 Offline land drawing performance**  
       *`fix №91`*  
       With the offline land map installed the app crawls on a modest phone: it tops out around 18 to 20 frames per second instead of the usual 25, while without that map it runs at full rate. The land is now drawn in one go and without the outline that fattened it, which removes close to two thirds of its cost. Three timing readouts were added to the debug list of the main screen, so it can be measured without a cable. Under test on a phone.
 - [ ] **🚧 Offline tide times and heights**  
       *`feature №92`*  
       The application now works out the tide anywhere in the world, with no network and no subscription to a tide service. A page of its own, reached from the menu, gives the time and height of the next two tides, a curve that can be dragged through thirty days, a tide clock, and a green band marking the best times to fish. The data it needs is a 20 MB file downloaded separately, alongside the offline maps.
-- [ ] **🚧 Phone orientation heading**  
-      *`feature №94`*  
-      The phone knows which way it is held thanks to its orientation sensor (gyroscope, accelerometer and compass combined). The app now computes this orientation heading ten times per second, steadied so that it does not shake while standing still, yet reacting at once as soon as you turn. When stopped, when GPS can no longer tell a direction, it drives the arrows towards the marks and the displayed heading: just turn on the spot to see the arrows follow. While moving, the heading remains the GPS one. A next step will also use it to steady the GPS heading at low speed. The phone's motion sensors (accelerometer and gyroscope) also make stop detection faster and more reliable: once the phone no longer moves, the stop is recognised at once and GPS drift no longer fakes a movement; as soon as you move off again, the app notices in just over a second. The status shows "Stopped + Still" when stopped and perfectly motionless.
-- [ ] **🚧 Personal marks draw order**  
-      *`feature №97`*  
-      Today marks are drawn in list order (alarm, selection, distance, title): the selected or alarming mark is drawn first and ends up under the others. New order: north to south, then west to east at equal height; alarming marks after that, on top; the main selected mark last of all.
-- [ ] **🚧 Streamer mode (on-screen anonymity)**  
-      *`feature №98`*  
-      To record YouTube videos without showing where you are: a "Streamer mode" switch in the developer parameters. Displayed coordinates are shifted by 1000 to 5000 km (offset drawn at random on each launch), the mark editor shows them read-only, and map names (streets, roads, places, buoys) are replaced with made-up ones.
 - [ ] **🚧 Offline Sun and Moon page**  
       *`feature №99`*  
       The Sun and Moon page shows, with no network, where the Sun and the Moon stand overhead. A sky map places them on the road each is travelling, beside the rise and set times, the three twilights, the Moon drawn at the phase and the tilt it really has, its distance and its age. An Earth tide curve at the foot of the page drags through a month, and everything above follows the mark, so the sky of any moment can be read. The page keeps itself current while it is open, and it works as well for the user's own position as for a place chosen anywhere in the world, remembered apart from the tide one.
@@ -178,6 +145,9 @@ Everything planned, under way and already done, straight from the working list. 
 - [ ] **Thin seams where map polygon tiles meet**  
       *`fix №101`*  
       Thin light (sometimes grey) straight lines show on the map, horizontal and vertical, where two pieces of the same water or land polygon meet. They come from cutting large polygons into tiles, done for drawing performance.
+- [ ] **Draw order between map item categories**  
+      *`feature №102`*  
+      Decide how the different categories of map items stack on top of each other: personal marks, sea marks, the current position and avatar, arrows, measurements. For instance, whether you appear in front of or behind a mark when you pass over it.
 - [x] **Hide the navigation bar (immersive mode)**  
       *`feature №1`*  
       The map fills the whole screen: Android's button bar disappears, and a swipe down from the top brings it back.
@@ -232,6 +202,9 @@ Everything planned, under way and already done, straight from the working list. 
 - [x] **Re-download a map after deleting it, without restarting**  
       *`fix №29`*  
       After deleting an offline map you had to quit and restart the app before you could download it again. The list of available maps now refreshes on its own.
+- [x] **Finish the icon set for personal marks**  
+      *`feature №30`*  
+      Round out the choice of pictures offered when creating a personal mark, which is too narrow today.
 - [x] **Burger menu opening the extra pages**  
       *`feature №33`*  
       A three-line button opens a menu onto the app's four pages: personal marks, offline maps, parameters, and supporting the development.
@@ -283,6 +256,18 @@ Everything planned, under way and already done, straight from the working list. 
 - [x] **Draw the missing Middle and Fast avatars**  
       *`feature №57`*  
       The app picks the avatar from your pace: a boat on water, a walker on land, and two faster categories that have no artwork yet. They still need drawing.
+- [x] **Avatar creation template**  
+      *`feature №58`*  
+      A blank sheet and a step-by-step guide for drawing a new avatar without starting from scratch: formats, order of the directions, alignment guides and integration steps.
+- [x] **Muted mark alarm coming back, and one tap doing several things**  
+      *`fix №59`*  
+      A mark muted by tapping started sounding again as soon as the map reloaded, and a single tap could trigger several actions at once. A muted mark now stays muted for the whole session, while the visual alert still signals the danger.
+- [x] **New algorithm for the movement modes**  
+      *`feature №61`*  
+      The avatar changed as soon as the speed varied: a car stopped at a light turned back into a walker. The movement mode is now confirmed over time before being applied, and no longer drops back at the slightest slowdown.
+- [x] **Publish the task list on GitHub in readable Markdown**  
+      *`feature №62`*  
+      The roadmap lives today in a spreadsheet, on a single computer. The goal is to publish it on GitHub in a form anyone can read, giving each task its state, its type and a description.
 - [x] **Speed frozen on its last value when GPS is lost**  
       *`fix №63`*  
       Walking into a building, the speed stayed frozen on its last value instead of dropping to zero, and the position kept drifting. The app now watches how old the last fix is.
@@ -310,6 +295,24 @@ Everything planned, under way and already done, straight from the working list. 
 - [x] **Share button for the app (Support page)**  
       *`feature №74`*  
       A single button at the top of the Support page opens Android's share sheet and sends the site link. A line of text and an animated arrow invite the user to tap it.
+- [x] **Broom button: clear measurements without leaving pan mode**  
+      *`feature №75`*  
+      A measurement point placed by mistake could be cleared, but the map jumped straight back to the boat position and the view being looked at was lost. The broom now clears the drawing while leaving the map exactly where it is, and the automatic recentring countdown restarts from five seconds. Each of the button's two actions now has its own sound, played on tap only: a muffled sweep for the erase, a soft bloup for the recentring. An automatic recentring stays silent.
 - [x] **Watch zone misplaced with several marks: instant alarm**  
       *`fix №77`*  
       When the watch zone is created with several marks selected, it is sometimes placed askew or too far off, so the boat is already outside it the moment it appears and the leaving-the-zone alarm goes off at once.
+- [x] **Low-resource mode for modest phones**  
+      *`feature №85`*  
+      On an entry-level phone, the settings page and the map turn choppy. A single switch, turned on by the user in the settings, then cuts what is purely decorative without touching what is needed to navigate: avatar thumbnails stop animating, cosmetic sounds go quiet and the map redraws less often. Alarms, position and measurements are untouched.
+- [x] **Double-tap: misleading reload messages, and travel mode reset**  
+      *`fix №89`*  
+      A double-tap on the map reloads the data around the current position and says so twice, once for the request and once for the confirmation. Trouble is, the confirmation also shows up when nobody asked for anything, in particular at app startup, suggesting a gesture that never happened. It will now appear only for a real double-tap, and when an offline map download finishes, where it is meaningful. The same double-tap also resets the travel mode to undetermined and rearms its timers, to start afresh whenever the avatar on screen no longer matches what you are doing.
+- [x] **Phone orientation heading**  
+      *`feature №94`*  
+      The phone knows which way it is held thanks to its orientation sensor (gyroscope, accelerometer and compass combined). The app now computes this orientation heading ten times per second, steadied so that it does not shake while standing still, yet reacting at once as soon as you turn. When stopped, when GPS can no longer tell a direction, it drives the arrows towards the marks and the displayed heading: just turn on the spot to see the arrows follow. While moving, the heading remains the GPS one. A next step will also use it to steady the GPS heading at low speed. The phone's motion sensors (accelerometer and gyroscope) also make stop detection faster and more reliable: once the phone no longer moves, the stop is recognised at once and GPS drift no longer fakes a movement; as soon as you move off again, the app notices in just over a second. The status shows "Stopped + Still" when stopped and perfectly motionless.
+- [x] **Personal marks draw order**  
+      *`feature №97`*  
+      Today marks are drawn in list order (alarm, selection, distance, title): the selected or alarming mark is drawn first and ends up under the others. New order: north to south, then west to east at equal height; alarming marks after that, on top; the main selected mark last of all.
+- [x] **Streamer mode (on-screen anonymity)**  
+      *`feature №98`*  
+      To record YouTube videos without showing where you are: a "Streamer mode" switch in the developer parameters. Displayed coordinates are shifted by 1000 to 5000 km (offset drawn at random on each launch), the mark editor shows them read-only, and map names (streets, roads, places, buoys) are replaced with made-up ones.

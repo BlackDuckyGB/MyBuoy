@@ -13,36 +13,18 @@ Tout ce qui est prévu, en cours et déjà fait, directement issu de la liste de
 - [ ] **🚧 Revoir les alarmes radar + étendre aux personal marks**  
       *`feature №7` · [issue #1](https://github.com/BlackDuckyGB/MyBuoy/issues/1)*  
       L'application prévient quand on approche d'une marque, selon la distance et le temps restant avant de l'atteindre. Les marques personnelles s'en servent désormais aussi : chacune a son propre interrupteur d'alarme, et une marque armée se reconnaît d'un coup d'œil sur la carte comme dans les listes. Reste à étendre le procédé aux marques marines.
-- [ ] **🚧 Finir les images des personal marks**  
-      *`feature №30`*  
-      Compléter le choix d'images proposé à la création d'une marque personnelle, aujourd'hui trop restreint.
 - [ ] **🚧 Finir la page Support the development (#33)**  
       *`feature №37`*  
       Une page explique ce qu'est MyBuoy, pourquoi le projet est ouvert, comment y contribuer et à quoi sert l'argent reçu, avec un lien vers le canal Telegram. Reste à arrêter les moyens de paiement.
-- [ ] **🚧 Template de création d'avatar**  
-      *`feature №58`*  
-      Une planche vierge et une marche à suivre pour dessiner un nouvel avatar sans repartir de zéro : formats, ordre des directions, repères de calage et étapes d'intégration.
-- [ ] **🚧 Alarme marque : son coupé qui repart au reload de chunk + un clic = une seule action**  
-      *`fix №59`*  
-      Le son coupé sur une marque repartait dès que la carte se rechargeait, et un même appui pouvait déclencher plusieurs actions à la fois. Une marque rendue muette le reste maintenant toute la session, l'alerte visuelle continuant de signaler le danger.
 - [ ] **🚧 Flèche de bord d'écran vers les marques en alarme hors champ**  
       *`feature №60`*  
       Une marque en alarme hors du champ n'était signalée par rien. Une flèche collée au bord de l'écran pointe désormais vers elle, accompagnée de la distance et, pour un radar, de la vitesse limite.
-- [ ] **🚧 Nouvel algorithme des modes de déplacement (état mesuré vs mode appliqué)**  
-      *`feature №61`*  
-      L'avatar changeait dès que la vitesse variait : une voiture arrêtée à un feu redevenait un marcheur. Le mode de déplacement est désormais confirmé dans la durée avant d'être appliqué, et ne redescend plus au moindre ralentissement.
-- [ ] **🚧 Publier la liste des tâches sur GitHub en Markdown lisible**  
-      *`feature №62`*  
-      La feuille de route ne vit aujourd'hui que dans un tableur, sur un seul ordinateur. L'objectif est de la publier sur GitHub sous une forme lisible par n'importe qui, avec pour chaque tâche son état, son type et une description.
 - [ ] **🚧 Recherche de lieux et de POI (bouton loupe)**  
       *`feature №67` · [issue #2](https://github.com/BlackDuckyGB/MyBuoy/issues/2)*  
       Un bouton loupe pour chercher un lieu par son nom, le phare de Trézien ou un supermarché, et en obtenir les coordonnées qu'il ne reste plus qu'à enregistrer comme marque.
 - [ ] **🚧 Documenter le contrat de l'API manifest des cartes offline**  
       *`feature №69`*  
       Décrire ce qu'un serveur doit répondre pour distribuer des cartes hors ligne, afin que chacun puisse héberger les siennes — la contrepartie de l'adresse devenue réglable.
-- [ ] **🚧 Bouton balai : effacer les mesures sans quitter le mode pan**  
-      *`feature №75`*  
-      Un point de mesure pose par erreur pouvait etre efface, mais la carte sautait aussitot sur la position du bateau et la vue que l'on regardait etait perdue. Le balai efface desormais le dessin en laissant la carte exactement ou elle est, et le compte a rebours du recentrage automatique repart de cinq secondes. Les deux actions du bouton ont desormais chacune leur son, joue au clic uniquement : un balayage feutre pour l'effacement, un bloup pour le recentrage. Un recentrage automatique, lui, reste silencieux.
 - [ ] **🚧 Écran d'attente au lancement (splash screen)**  
       *`feature №76`*  
       Au lancement, la carte met un moment à s'afficher. Un écran d'attente occupe ce temps : un bout de cordage se noue tout seul, tiré au hasard entre un nœud de chaise et un nœud de huit, pendant que s'affichent des astuces sur les gestes que l'application ne montre nulle part.
@@ -58,30 +40,15 @@ Tout ce qui est prévu, en cours et déjà fait, directement issu de la liste de
 - [ ] **🚧 Partager la position d’une marque**  
       *`feature №84`*  
       Depuis le détail d’une marque, un bouton ouvre la feuille de partage du téléphone et envoie le lieu à qui l’on veut : le nom, les coordonnées et l’icône voyagent avec. Le destinataire qui a MyBuoy voit la marque s’ouvrir telle quelle ; les autres tombent sur une page web qui montre la position et propose de l’ouvrir dans leur application de carte. Sert aussi à partager sa position courante, en ouvrant une marque sans l’enregistrer.
-- [ ] **🚧 Mode économie de ressources pour téléphones modestes**  
-      *`feature №85`*  
-      Sur un téléphone d'entrée de gamme, la page des paramètres et la carte deviennent saccadées. Un interrupteur unique, à activer soi-même dans les paramètres, coupe alors ce qui est purement décoratif sans toucher à ce qui sert à naviguer : les vignettes d'avatar cessent de s'animer, les sons d'agrément se taisent et la carte se redessine moins souvent. Les alarmes, la position et les mesures restent intactes.
 - [ ] **🚧 Cache local des données Overpass**  
       *`feature №86`*  
       Chaque changement de chunk redemande à Overpass les données du secteur, même si l'application vient tout juste de les télécharger. Elles sont désormais conservées dans un dossier de cache dont le nom porte la zone couverte, et relues au lieu d'être retéléchargées : le passage d'un chunk au suivant devient plus vif, l'attente du démarrage raccourcit, et un forfait internet modeste s'use moins vite. Une nouvelle page Maintenance montre l'état du cache et offre plusieurs façons de le vider. Le double-clic sur la carte, qui force un rechargement, ignore volontairement le cache.
-- [ ] **🚧 Double-clic : messages de rechargement trompeurs, et remise à zéro du mode de déplacement**  
-      *`fix №89`*  
-      Un double-clic sur la carte recharge les données autour de la position courante et l'annonce en deux temps, la demande puis la confirmation. Seulement la confirmation s'affiche aussi quand personne n'a rien demandé, notamment au lancement de l'application, ce qui laisse croire à un geste que l'on n'a pas fait. Elle ne paraîtra plus que pour un vrai double-clic, et pour la fin d'un téléchargement de carte hors ligne, où elle a du sens. Le même double-clic remet par ailleurs le mode de déplacement à l'indéterminé et réarme ses temporisations, pour repartir d'une page blanche quand l'avatar affiché ne correspond plus à ce que l'on fait.
 - [ ] **🚧 Performances d'affichage des terres hors ligne**  
       *`fix №91`*  
       Avec la carte des terres hors ligne installée, l'application rame sur un téléphone modeste : elle plafonne vers 18 à 20 images par seconde au lieu des 25 habituelles, alors que sans cette carte elle tourne à pleine cadence. Les terres sont désormais dessinées d'un seul tenant et sans le contour qui les grossissait, ce qui supprime près des deux tiers de leur coût. Trois indicateurs de temps ont été ajoutés à la liste de mise au point de l'écran principal, pour pouvoir mesurer sans câble. En cours de test sur téléphone.
 - [ ] **🚧 Horaires et hauteurs de marée hors ligne**  
       *`feature №92`*  
       L'application calcule désormais les marées partout dans le monde, sans réseau et sans abonnement à un service de marée. Une page dédiée, accessible par le menu, donne l'heure et la hauteur des deux prochaines marées, une courbe que l'on fait défiler au doigt sur trente jours, un pendule de marée, et une zone verte indiquant les meilleurs moments pour pêcher. La donnée nécessaire est un fichier de 20 Mo téléchargé séparément, à côté des cartes hors ligne.
-- [ ] **🚧 Cap d'orientation du téléphone**  
-      *`feature №94`*  
-      Le téléphone sait dans quelle direction il est tenu grâce à son capteur d'orientation (gyroscope, accéléromètre et boussole combinés). L'application calcule désormais ce cap d'orientation, rafraîchi dix fois par seconde et stabilisé pour ne pas trembler quand on ne bouge pas, tout en réagissant aussitôt dès qu'on tourne. À l'arrêt, quand le GPS ne peut plus donner de direction, c'est lui qui oriente les flèches vers les marks et le cap affiché : il suffit de pivoter sur soi-même pour voir les flèches tourner. En déplacement, le cap reste celui du GPS. Une prochaine étape s'en servira aussi pour stabiliser le cap GPS à faible vitesse. Les capteurs de mouvement du téléphone (accéléromètre et gyroscope) rendent aussi la détection de l'arrêt plus rapide et plus fiable : quand le téléphone ne bouge plus, l'arrêt est reconnu tout de suite et la dérive du GPS ne fait plus croire à un déplacement ; dès qu'on repart, l'application le voit en un peu plus d'une seconde. L'état affiché devient « Stopped + Still » quand on est arrêté et parfaitement immobile.
-- [ ] **🚧 Ordre d'affichage des marks perso**  
-      *`feature №97`*  
-      Aujourd'hui les marks sont dessinées dans l'ordre de la liste (alarme, sélection, distance, titre) : la mark sélectionnée ou en alarme est dessinée en premier et passe donc sous les autres. Nouvel ordre : du nord au sud, puis d'ouest en est à hauteur égale ; les marks en alarme ensuite, par-dessus ; la mark principale sélectionnée en tout dernier.
-- [ ] **🚧 Mode streamer (anonymat à l'écran)**  
-      *`feature №98`*  
-      Pour tourner les vidéos YouTube sans montrer où l'on est : un interrupteur « Streamer mode » dans les paramètres développeur. Les coordonnées affichées sont décalées de 1000 à 5000 km (décalage tiré au hasard à chaque lancement), l'éditeur de mark montre ces coordonnées en lecture seule, et les noms de la carte (rues, routes, lieux, balises) sont remplacés par des noms inventés.
 - [ ] **🚧 Page Soleil et Lune hors ligne**  
       *`feature №99`*  
       La page Soleil et Lune donne, sans réseau, où se trouvent le Soleil et la Lune au-dessus de soi. Une carte du ciel les montre à leur place, chacun sur la route qu'il suit, avec les heures de lever et de coucher, les trois crépuscules, la phase de la Lune dessinée telle qu'elle apparaît vraiment, sa distance et son âge. Une courbe de marée terrestre en bas de page se fait glisser sur un mois, et tout ce qui est au-dessus suit le repère : on voit le ciel de n'importe quel instant. La page se tient à jour toute seule quand on la laisse ouverte, et elle marche aussi bien chez soi que pour un lieu choisi ailleurs dans le monde, mémorisé séparément de celui des marées.
@@ -178,6 +145,9 @@ Tout ce qui est prévu, en cours et déjà fait, directement issu de la liste de
 - [ ] **Fines lignes aux jointures des tuiles de polygones**  
       *`fix №101`*  
       Sur la carte, de fines lignes claires (parfois grises) apparaissent, droites, horizontales et verticales, là où deux morceaux d'un même polygone d'eau ou de terre se rejoignent. Elles viennent du découpage des grands polygones en tuiles, fait pour les performances d'affichage.
+- [ ] **Ordre d'affichage entre catégories d'éléments de la carte**  
+      *`feature №102`*  
+      Définir dans quel ordre se superposent les différentes catégories d'éléments de la carte : marks personnels, marques marines, position courante et avatar, flèches, mesures. Par exemple, savoir si l'on apparaît devant ou derrière une marque quand on passe dessus.
 - [x] **Masquer la barre de navigation (mode immersif)**  
       *`feature №1`*  
       La carte occupe tout l'écran : la barre de boutons d'Android s'efface, et un glissement depuis le haut la fait revenir.
@@ -232,6 +202,9 @@ Tout ce qui est prévu, en cours et déjà fait, directement issu de la liste de
 - [x] **DELETE map offline : ré-interroger le backend sans redémarrer**  
       *`fix №29`*  
       Après la suppression d'une carte hors ligne, il fallait quitter et relancer l'application pour pouvoir la retélécharger. La liste des cartes disponibles se rafraîchit maintenant toute seule.
+- [x] **Finir les images des personal marks**  
+      *`feature №30`*  
+      Compléter le choix d'images proposé à la création d'une marque personnelle, aujourd'hui trop restreint.
 - [x] **Burger menu à la place du bouton M (pages supplémentaires)**  
       *`feature №33`*  
       Un bouton en forme de trois traits ouvre un menu vers les quatre pages de l'application : marques personnelles, cartes hors ligne, paramètres et soutien au développement.
@@ -283,6 +256,18 @@ Tout ce qui est prévu, en cours et déjà fait, directement issu de la liste de
 - [x] **Créer les avatars Middle (av\_ride\_) et Fast (av\_drive\_)**  
       *`feature №57`*  
       L'application choisit l'avatar selon l'allure : bateau sur l'eau, marcheur à pied, et deux catégories plus rapides qui n'ont encore aucun dessin. Il reste à les créer.
+- [x] **Template de création d'avatar**  
+      *`feature №58`*  
+      Une planche vierge et une marche à suivre pour dessiner un nouvel avatar sans repartir de zéro : formats, ordre des directions, repères de calage et étapes d'intégration.
+- [x] **Alarme marque : son coupé qui repart au reload de chunk + un clic = une seule action**  
+      *`fix №59`*  
+      Le son coupé sur une marque repartait dès que la carte se rechargeait, et un même appui pouvait déclencher plusieurs actions à la fois. Une marque rendue muette le reste maintenant toute la session, l'alerte visuelle continuant de signaler le danger.
+- [x] **Nouvel algorithme des modes de déplacement (état mesuré vs mode appliqué)**  
+      *`feature №61`*  
+      L'avatar changeait dès que la vitesse variait : une voiture arrêtée à un feu redevenait un marcheur. Le mode de déplacement est désormais confirmé dans la durée avant d'être appliqué, et ne redescend plus au moindre ralentissement.
+- [x] **Publier la liste des tâches sur GitHub en Markdown lisible**  
+      *`feature №62`*  
+      La feuille de route ne vit aujourd'hui que dans un tableur, sur un seul ordinateur. L'objectif est de la publier sur GitHub sous une forme lisible par n'importe qui, avec pour chaque tâche son état, son type et une description.
 - [x] **Perte de GPS : vitesse figée sur la dernière valeur (No GPS)**  
       *`fix №63`*  
       En entrant dans un bâtiment, la vitesse restait figée sur sa dernière valeur au lieu de retomber à zéro, et la position continuait de dériver. L'application surveille maintenant l'âge du dernier point reçu.
@@ -310,6 +295,24 @@ Tout ce qui est prévu, en cours et déjà fait, directement issu de la liste de
 - [x] **Bouton de partage de l'app (page Support)**  
       *`feature №74`*  
       Un bouton unique en haut de la page Support ouvre la feuille de partage d'Android et envoie le lien du site. Une phrase et une fleche animee invitent a l'utiliser.
+- [x] **Bouton balai : effacer les mesures sans quitter le mode pan**  
+      *`feature №75`*  
+      Un point de mesure pose par erreur pouvait etre efface, mais la carte sautait aussitot sur la position du bateau et la vue que l'on regardait etait perdue. Le balai efface desormais le dessin en laissant la carte exactement ou elle est, et le compte a rebours du recentrage automatique repart de cinq secondes. Les deux actions du bouton ont desormais chacune leur son, joue au clic uniquement : un balayage feutre pour l'effacement, un bloup pour le recentrage. Un recentrage automatique, lui, reste silencieux.
 - [x] **Zone de surveillance mal placée avec plusieurs marques : alarme immédiate**  
       *`fix №77`*  
       Quand la zone de surveillance est créée avec plusieurs marques sélectionnées, elle se place parfois de travers ou trop loin, au point que le bateau se retrouve en dehors dès sa création : l'alarme de sortie se déclenche aussitôt.
+- [x] **Mode économie de ressources pour téléphones modestes**  
+      *`feature №85`*  
+      Sur un téléphone d'entrée de gamme, la page des paramètres et la carte deviennent saccadées. Un interrupteur unique, à activer soi-même dans les paramètres, coupe alors ce qui est purement décoratif sans toucher à ce qui sert à naviguer : les vignettes d'avatar cessent de s'animer, les sons d'agrément se taisent et la carte se redessine moins souvent. Les alarmes, la position et les mesures restent intactes.
+- [x] **Double-clic : messages de rechargement trompeurs, et remise à zéro du mode de déplacement**  
+      *`fix №89`*  
+      Un double-clic sur la carte recharge les données autour de la position courante et l'annonce en deux temps, la demande puis la confirmation. Seulement la confirmation s'affiche aussi quand personne n'a rien demandé, notamment au lancement de l'application, ce qui laisse croire à un geste que l'on n'a pas fait. Elle ne paraîtra plus que pour un vrai double-clic, et pour la fin d'un téléchargement de carte hors ligne, où elle a du sens. Le même double-clic remet par ailleurs le mode de déplacement à l'indéterminé et réarme ses temporisations, pour repartir d'une page blanche quand l'avatar affiché ne correspond plus à ce que l'on fait.
+- [x] **Cap d'orientation du téléphone**  
+      *`feature №94`*  
+      Le téléphone sait dans quelle direction il est tenu grâce à son capteur d'orientation (gyroscope, accéléromètre et boussole combinés). L'application calcule désormais ce cap d'orientation, rafraîchi dix fois par seconde et stabilisé pour ne pas trembler quand on ne bouge pas, tout en réagissant aussitôt dès qu'on tourne. À l'arrêt, quand le GPS ne peut plus donner de direction, c'est lui qui oriente les flèches vers les marks et le cap affiché : il suffit de pivoter sur soi-même pour voir les flèches tourner. En déplacement, le cap reste celui du GPS. Une prochaine étape s'en servira aussi pour stabiliser le cap GPS à faible vitesse. Les capteurs de mouvement du téléphone (accéléromètre et gyroscope) rendent aussi la détection de l'arrêt plus rapide et plus fiable : quand le téléphone ne bouge plus, l'arrêt est reconnu tout de suite et la dérive du GPS ne fait plus croire à un déplacement ; dès qu'on repart, l'application le voit en un peu plus d'une seconde. L'état affiché devient « Stopped + Still » quand on est arrêté et parfaitement immobile.
+- [x] **Ordre d'affichage des marks perso**  
+      *`feature №97`*  
+      Aujourd'hui les marks sont dessinées dans l'ordre de la liste (alarme, sélection, distance, titre) : la mark sélectionnée ou en alarme est dessinée en premier et passe donc sous les autres. Nouvel ordre : du nord au sud, puis d'ouest en est à hauteur égale ; les marks en alarme ensuite, par-dessus ; la mark principale sélectionnée en tout dernier.
+- [x] **Mode streamer (anonymat à l'écran)**  
+      *`feature №98`*  
+      Pour tourner les vidéos YouTube sans montrer où l'on est : un interrupteur « Streamer mode » dans les paramètres développeur. Les coordonnées affichées sont décalées de 1000 à 5000 km (décalage tiré au hasard à chaque lancement), l'éditeur de mark montre ces coordonnées en lecture seule, et les noms de la carte (rues, routes, lieux, balises) sont remplacés par des noms inventés.
