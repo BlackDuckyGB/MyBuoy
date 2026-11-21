@@ -58,7 +58,7 @@ et en mer, dans des conditions qu'aucun émulateur ne reproduit : un point GPS d
 port, un amer qui disparaît en bord de chunk, une alarme qui se déclenche trop tard. Décrire
 précisément ce que vous avez vu, où, et à quelle vitesse vaut mieux qu'un don.
 
-**Avec de l'argent.** Bientôt : les liens de don seront indiqués ici.
+**Avec de l'argent.** Par [GitHub Sponsors](https://github.com/sponsors/BlackDuckyGB), une fois ou chaque mois.
 
 **En en parlant.** Dire à un autre marin ou à un autre marcheur que l'application existe ne
 coûte rien, et c'est par ce chemin que sont arrivés tous les utilisateurs actuels.

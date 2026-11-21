@@ -55,7 +55,7 @@ and at sea, in conditions that no emulator reproduces: a bad GPS fix in a marina
 disappears at the edge of a chunk, an alarm that fires late. Reporting precisely what you saw,
 where, and at what speed is worth more than a donation.
 
-**With money.** Coming soon: the donation links will be listed here.
+**With money.** Through [GitHub Sponsors](https://github.com/sponsors/BlackDuckyGB), once or every month.
 
 **By talking about it.** Telling one other sailor or walker that the application exists costs
 nothing and is how every user so far has arrived.
