@@ -4,7 +4,9 @@
 
 Please **do not open a public issue** for a security problem.
 
-Write to **security@golden-block.fr** with:
+Report it privately, either through GitHub's
+[Report a vulnerability](https://github.com/BlackDuckyGB/MyBuoy/security/advisories/new)
+form or by writing to **security@golden-block.fr**, with:
 
 - a description of the problem and its impact,
 - the steps to reproduce it,
