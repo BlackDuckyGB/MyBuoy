@@ -2,7 +2,7 @@
 
 # ![MyBuoy](design/app-icon/logo48x48.svg) MyBuoy — Roadmap
 
-Everything planned, under way and already done, straight from the working list. Last generated on 20 November 2026.
+Everything planned, under way and already done, straight from the working list. Last generated on 21 November 2026.
 
 ## 💰 Budget
 
@@ -13,15 +13,12 @@ Everything planned, under way and already done, straight from the working list. 
 - [ ] **🚧 Rework proximity alarms and extend them to personal marks**  
       *`feature №7` · [issue #1](https://github.com/BlackDuckyGB/MyBuoy/issues/1)*  
       The app warns you when you come near a mark, based on distance and on the time left before reaching it. Your own marks now use it too: each has its own alarm switch, and an armed mark is recognisable at a glance on the map and in the lists. Still to come: extending it to sea marks.
-- [ ] **🚧 Publish the project on GitHub**  
-      *`feature №22`*  
-      The code already lives on GitHub, in a private repository. What remains is opening it up: licence, legal texts, a check that the history is anonymous, and credit to the map data sources.
 - [ ] **🚧 Finish the icon set for personal marks**  
       *`feature №30`*  
       Round out the choice of pictures offered when creating a personal mark, which is too narrow today.
 - [ ] **🚧 Finish the Support the development page**  
       *`feature №37`*  
-      A page explains what MyBuoy is, why the project is open, how to contribute and what the money is used for, with a link to the Telegram channel. Still to come: writing the texts it points to and settling the payment methods.
+      A page explains what MyBuoy is, why the project is open, how to contribute and what the money is used for, with a link to the Telegram channel. Still to come: settling the payment methods.
 - [ ] **🚧 Avatar creation template**  
       *`feature №58`*  
       A blank sheet and a step-by-step guide for drawing a new avatar without starting from scratch: formats, order of the directions, alignment guides and integration steps.
@@ -217,6 +214,9 @@ Everything planned, under way and already done, straight from the working list. 
 - [x] **Software version numbering**  
       *`feature №20`*  
       The app carries a version number in the form Major.Minor.build, the first two set by hand and the last one bumped automatically at every build.
+- [x] **Publish the project on GitHub**  
+      *`feature №22`*  
+      The code is published on GitHub under the AGPL-3.0, with a commercial licence as an alternative: legal texts, a Contributor License Agreement signed through a bot, a fresh repository without the private history, and credit to the map data sources.
 - [x] **Watch zone for anchoring or a tacking corridor**  
       *`feature №25`*  
       Draw a zone around yourself and your marks: everything outside is greyed out and an alarm sounds as soon as you leave it, which at anchor catches a dragging anchor. The zone is set with two fingers, for both angle and size.

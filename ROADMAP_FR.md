@@ -2,7 +2,7 @@
 
 # ![MyBuoy](design/app-icon/logo48x48.svg) MyBuoy — Feuille de route
 
-Tout ce qui est prévu, en cours et déjà fait, directement issu de la liste de travail. Dernière génération le 20 novembre 2026.
+Tout ce qui est prévu, en cours et déjà fait, directement issu de la liste de travail. Dernière génération le 21 novembre 2026.
 
 ## 💰 Budget
 
@@ -13,15 +13,12 @@ Tout ce qui est prévu, en cours et déjà fait, directement issu de la liste de
 - [ ] **🚧 Revoir les alarmes radar + étendre aux personal marks**  
       *`feature №7` · [issue #1](https://github.com/BlackDuckyGB/MyBuoy/issues/1)*  
       L'application prévient quand on approche d'une marque, selon la distance et le temps restant avant de l'atteindre. Les marques personnelles s'en servent désormais aussi : chacune a son propre interrupteur d'alarme, et une marque armée se reconnaît d'un coup d'œil sur la carte comme dans les listes. Reste à étendre le procédé aux marques marines.
-- [ ] **🚧 Configurer un remote git (GitHub) + push**  
-      *`feature №22`*  
-      Le code est déjà hébergé sur GitHub, en dépôt privé. Reste à le rendre public : licence, textes juridiques, vérification de l'anonymat de l'historique et mention des sources cartographiques.
 - [ ] **🚧 Finir les images des personal marks**  
       *`feature №30`*  
       Compléter le choix d'images proposé à la création d'une marque personnelle, aujourd'hui trop restreint.
 - [ ] **🚧 Finir la page Support the development (#33)**  
       *`feature №37`*  
-      Une page explique ce qu'est MyBuoy, pourquoi le projet est ouvert, comment y contribuer et à quoi sert l'argent reçu, avec un lien vers le canal Telegram. Reste à écrire les textes qu'elle référence et à arrêter les moyens de paiement.
+      Une page explique ce qu'est MyBuoy, pourquoi le projet est ouvert, comment y contribuer et à quoi sert l'argent reçu, avec un lien vers le canal Telegram. Reste à arrêter les moyens de paiement.
 - [ ] **🚧 Template de création d'avatar**  
       *`feature №58`*  
       Une planche vierge et une marche à suivre pour dessiner un nouvel avatar sans repartir de zéro : formats, ordre des directions, repères de calage et étapes d'intégration.
@@ -217,6 +214,9 @@ Tout ce qui est prévu, en cours et déjà fait, directement issu de la liste de
 - [x] **Gestion de version du logiciel**  
       *`feature №20`*  
       L'application porte un numéro de version au format Majeur.Mineur.build, les deux premiers fixés à la main et le dernier incrémenté automatiquement à chaque compilation.
+- [x] **Configurer un remote git (GitHub) + push**  
+      *`feature №22`*  
+      Le code est publié sur GitHub sous licence AGPL-3.0, avec une licence commerciale en alternative : textes juridiques, accord de contribution (CLA) signé via un robot, dépôt neuf sans l'historique privé et mention des sources cartographiques.
 - [x] **Zone de surveillance (mouillage / couloir de louvoyage)**  
       *`feature №25`*  
       Délimiter une zone autour de soi et de ses marques : tout ce qui est en dehors est grisé et une alarme sonne dès qu'on en sort, ce qui permet au mouillage de détecter une ancre qui dérape. La zone se règle à deux doigts, en orientation comme en taille.
